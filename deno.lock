@@ -1,6 +1,7 @@
 {
   "version": "4",
   "specifiers": {
+    "npm:@next/font@^14.2.15": "14.2.15_next@15.0.3__react@19.0.0-rc-66855b96-20241106__react-dom@19.0.0-rc-66855b96-20241106___react@19.0.0-rc-66855b96-20241106_react@19.0.0-rc-66855b96-20241106_react-dom@19.0.0-rc-66855b96-20241106__react@19.0.0-rc-66855b96-20241106",
     "npm:@splidejs/react-splide@~0.7.12": "0.7.12",
     "npm:@splidejs/splide@^4.1.4": "4.1.4",
     "npm:@types/node@20": "20.17.6",
@@ -194,6 +195,12 @@
       "integrity": "sha512-3Ln/nHq2V+v8uIaxCR6YfYo7ceRgZNXfTd3yW1ukTaFbO+/I8jNakrjYWODvG9BuR2v5kgVtH/C8r0i11quOgw==",
       "dependencies": [
         "fast-glob@3.3.1"
+      ]
+    },
+    "@next/font@14.2.15_next@15.0.3__react@19.0.0-rc-66855b96-20241106__react-dom@19.0.0-rc-66855b96-20241106___react@19.0.0-rc-66855b96-20241106_react@19.0.0-rc-66855b96-20241106_react-dom@19.0.0-rc-66855b96-20241106__react@19.0.0-rc-66855b96-20241106": {
+      "integrity": "sha512-QopYhBmCDDrNDynbi+ZD1hDZXmQXVFo7TmAFp4DQgO/kogz1OLbQ92hPigJbj572eZ3GaaVxNIyYVn3/eAsehg==",
+      "dependencies": [
+        "next"
       ]
     },
     "@next/swc-darwin-arm64@15.0.3": {
@@ -2370,6 +2377,7 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@next/font@^14.2.15",
         "npm:@splidejs/react-splide@~0.7.12",
         "npm:@splidejs/splide@^4.1.4",
         "npm:@types/node@20",

@@ -8,7 +8,7 @@ import { IoIosNotifications } from "react-icons/io";
 function Header() {
 
     return (
-        <div className="py-4 px-7 p1 rounded-b-[32px] bg-[#e0e0e0] shadow-[6px_6px_6px_#9f9f9f,-6px_-6px_6px_#ffffff]">
+        <div className="py-4 px-7 rounded-b-3xl bg-[#e0e0e0] shadow-[6px_6px_6px_#9f9f9f,-6px_-6px_6px_#ffffff]">
             <div className="flex flex-row justify-between items-center">
                 <div className="flex flex-row space-x-4">
                     <div className="rounded-full">
