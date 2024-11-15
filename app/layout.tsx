@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Poppins } from "@next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import 'material-icons/iconfont/material-icons.css';
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: '--font-poppins',
+const poppins = localFont({
+  src: "./fonts/poppins-v21-latin-regular.woff2",
+  variable: "--font-poppins",
+  weight: "100 900",
 });
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-sans ${poppins.variable} antialiased`}
+        className={`${poppins.variable} antialiased`}
       >
         {children}
       </body>
