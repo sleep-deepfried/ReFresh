@@ -7,7 +7,7 @@ import '@splidejs/react-splide/css';
 
 function FoodCategory() {
     return(
-        <div className='py-5 px-4'>
+        <div className='py-3 px-4'>
             <Splide
                 aria-label="My Favorite Images"
                 options={{
