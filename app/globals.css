@@ -18,4 +18,5 @@
 body {
   color: var(--background);
   background: var(--foreground);
+  font-family: var(--font-poppins);
 }

@@ -2,7 +2,7 @@
 
 function Inventory() {
   return (
-    <div>
+    <div className="">
     </div>
   );
 }
