@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image';
-
+//@ts-expect-error library may need to update its package.json or typings.ts
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css'; 
 
