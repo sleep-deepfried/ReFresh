@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
+    "types": ["@splidejs/react-splide"],
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
