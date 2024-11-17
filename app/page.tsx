@@ -1,9 +1,9 @@
-import Header from "@/components/header";
-import SearchBar from "@/components/search-bar";
-import FoodCategory from "@/components/food-category";
-import AddRemoveCard from "@/components/add-remove-card";
-import Inventory from "@/components/inventory";
-import Navbar from "@/components/navbar";
+import Header from "@/components/main/header";
+import SearchBar from "@/components/main/search-bar";
+import FoodCategory from "@/components/main/food-category";
+import AddRemoveCard from "@/components/main/add-remove-card";
+import Inventory from "@/components/main/inventory";
+import Navbar from "@/components/main/navbar";
 
 export default function Home() {
   return (
@@ -19,7 +19,7 @@ export default function Home() {
       <Inventory />
       <Inventory />
       
-      <Navbar /> {/* Remove the absolute positioning div wrapper */}
+      <Navbar />
     </main>
   );
 }

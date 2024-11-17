@@ -5,7 +5,7 @@ function Inventory() {
   return (
     <div className="px-5 py-2">
       <div className="space-y-4">
-        <p className="text-2xl font-semibold">Inventory</p>
+        <p className="text-2xl font-semibold">My Fridge</p>
         
         <div className="grid grid-cols-3 gap-4">
           {inventoryData.map((item) => (
