@@ -13,8 +13,6 @@ function Navbar() {
         const handleScroll = () => {
             const currentScrollPos = window.scrollY;
             
-            // Show navbar when scrolling up or at the top
-            // Hide navbar when scrolling down
             setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
             
             setPrevScrollPos(currentScrollPos);

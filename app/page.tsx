@@ -1,7 +1,7 @@
 import Header from "@/components/main/header";
 import SearchBar from "@/components/main/search-bar";
 import FoodCategory from "@/components/main/food-category";
-import AddRemoveCard from "@/components/main/add-remove-card";
+import AddRemoveCard from "@/components/main/hero";
 import Inventory from "@/components/main/inventory";
 import Navbar from "@/components/main/navbar";
 
@@ -12,12 +12,6 @@ export default function Home() {
       <SearchBar />
       <FoodCategory />
       <AddRemoveCard />
-      <Inventory />
-      <Inventory />
-      <Inventory />
-      <Inventory />
-      <Inventory />
-      <Inventory />
       
       <Navbar />
     </main>

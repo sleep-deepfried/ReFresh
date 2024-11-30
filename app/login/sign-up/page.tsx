@@ -1,16 +1,20 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { FaUser, FaCheckCircle} from "react-icons/fa";
 import { MdEmail, MdPassword  } from "react-icons/md";
-
-
-
+import { IoIosArrowBack } from "react-icons/io";
 
 function SignUp(){
     return (
-        <div className="flex flex-col justify-center space-y-20 min-h-screen">
-            <div className="flex flex-col items-center text-center gap-2">
-                <p className="text-6xl font-bold">
+        <div className="flex flex-col gap-16 min-h-screen pt-32">
+            <div className="absolute top-5 left-3 block text-orange text-4xl">
+                <Link href={"/login/sign-in"}>
+                    <IoIosArrowBack />
+                </Link>
+            </div>
+            <div className="flex flex-col items-center text-center gap-5">
+                <p className="text-5xl font-bold">
                         Create an account
                 </p>
                 <div className="space-y-3">
