@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import { IoIosAddCircle, IoIosRemoveCircle} from "react-icons/io";
 
@@ -26,27 +28,30 @@ function AddRemoveCard(){
                 </div>
             </div>
             <div className="flex justify-between text-lg font-bold">
-                <div className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-8 justify-between relative">
-                    <div className="relative">
-                        <p className="">What&apos;s in your <br /> fridge?</p>
-                        <div className="absolute -right-10 -bottom-5">
+                <button className=" flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-8 justify-between relative"
+                        onClick={() =>window.location.href = "/home/inventory"}
+                >
+                    <div className=""   
+                    >
+                        <p className="text-left">What&apos;s in your <br /> fridge?</p>
+                        <div className="absolute -right-3 -bottom-4">
                             <Image src="/assets/inventory.svg" alt="alt" width={140} height={100} />
                         </div>
                     </div>
-                </div>
+                </button>
                 <div className="flex flex-col gap-7">
-                    <div className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-16 justify-between relative">
+                    <button className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-16 justify-between relative">
                         <p>Your daily <br />meal</p>
                         <div className="absolute right-0 bottom-0">
                             <Image src="/assets/daily-meal.svg" alt="alt" width={60} height={50} />
                         </div>
-                    </div>
-                    <div className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-16 relative">
+                    </button>
+                    <button className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-16 relative">
                         <p>Health <br/> Tracker</p>
                         <div className="absolute right-0">
                             <Image src="/assets/health.svg" alt="alt" width={55} height={50} />
                         </div>
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>

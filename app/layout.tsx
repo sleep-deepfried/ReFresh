@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import 'material-icons/iconfont/material-icons.css';
 
+
 const poppins = localFont({
   src: "./fonts/poppins-v21-latin-regular.woff2",
   variable: "--font-poppins",

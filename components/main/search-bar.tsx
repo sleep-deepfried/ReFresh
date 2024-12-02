@@ -1,6 +1,6 @@
 import { FaSearch } from "react-icons/fa";
 
-function SearchBar(){
+function    SearchBar(){
     return(
         <div className="py-5 px-5">
             <div className="relative">
