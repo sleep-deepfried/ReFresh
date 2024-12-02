@@ -49,30 +49,21 @@ export async function GET(req: NextRequest) {
         const inventory: InventoryItem[] = inventoryResult.rows;
 
         const inventoryList = inventory.map(item => 
-        `${item.food_name} (${item.food_type}): ${item.quantity}`
+            `${item.food_name} (${item.food_type}): ${item.quantity}`
         ).join(', ');
 
         const prompt = `
         I have the following food inventory: ${inventoryList}. 
         Suggest 3 traditional Filipino cuisine recipes that can be made using these ingredients. 
-        For each recipe, provide:
-        - A unique ID
-        - Food name
-        - Tagline (EXACTLY 3-4 words only)
-        - Description
-        - Category
-        - A list of ingredients with IDs, using descriptive measurement phrases like "2 cups of rice"
-        - Cooking steps with IDs
-        
-        Respond strictly in this JSON format:
+        IMPORTANT: Your ENTIRE response must be a VALID JSON matching this exact structure:
         {
             "recipes": [
             {
                 "id": 1,
-                "food_name": "",
+                "food_name": "Recipe Name",
                 "tagline": "Quick Pinoy Delight",
-                "description": "",
-                "category": "",
+                "description": "Full recipe description",
+                "category": "Meal Category",
                 "ingredients": [
                 {
                     "id": 1,
@@ -82,30 +73,44 @@ export async function GET(req: NextRequest) {
                 "how_to_cook": [
                 {
                     "id": 1,
-                    "step": ""
+                    "step": "Cooking step description"
                 }
                 ]
             }
             ]
         }
 
-        Important: Tagline must be EXACTLY 3-4 words!
+        Do NOT include any text outside of the JSON. 
+        Do NOT use code block markers. 
+        Respond ONLY with the JSON.
         `;
 
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
         const result = await model.generateContent(prompt);
         const response = await result.response;
-        const recipeText = response.text();
+        const recipeText = response.text().trim();
 
         let parsedRecipes: { recipes: RecipeRecommendation[] };
         try {
-        parsedRecipes = JSON.parse(recipeText);
+            // More defensive parsing
+            parsedRecipes = JSON.parse(recipeText);
+
+            // Additional validation
+            if (!parsedRecipes.recipes || !Array.isArray(parsedRecipes.recipes)) {
+                throw new Error('Invalid recipe format');
+            }
         } catch (parseError) {
-        console.error('JSON Parsing Error:', parseError);
-        return NextResponse.json(
-            { message: 'Failed to parse recipe recommendations', error: parseError },
-            { status: 500 }
-        );
+            console.error('JSON Parsing Error:', parseError);
+            console.error('Problematic Response:', recipeText);
+            
+            return NextResponse.json(
+                { 
+                    message: 'Failed to parse recipe recommendations', 
+                    error: parseError instanceof Error ? parseError.message : 'Unknown parsing error',
+                    rawResponse: recipeText
+                },
+                { status: 500 }
+            );
         }
 
         return NextResponse.json(parsedRecipes.recipes, { status: 200 });
@@ -114,8 +119,8 @@ export async function GET(req: NextRequest) {
         console.error('Error generating recipe recommendations:', error);
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         return NextResponse.json(
-        { message: 'Internal server error', error: errorMessage },
-        { status: 500 }
+            { message: 'Internal server error', error: errorMessage },
+            { status: 500 }
         );
     }
 }
