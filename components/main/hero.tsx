@@ -40,7 +40,9 @@ function AddRemoveCard(){
                     </div>
                 </button>
                 <div className="flex flex-col gap-7">
-                    <button className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-16 justify-between relative">
+                    <button className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-16 justify-between relative"
+                            onClick={() =>window.location.href = "/home/recommedations"}
+                    >
                         <p>Your daily <br />meal</p>
                         <div className="absolute right-0 bottom-0">
                             <Image src="/assets/daily-meal.svg" alt="alt" width={60} height={50} />
