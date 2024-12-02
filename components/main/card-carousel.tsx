@@ -7,6 +7,7 @@ import '@splidejs/react-splide/css';
 
 interface FoodCategoryProps {
   slides: { src: string; alt: string }[]; // Array of slide objects
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options?: Record<string, any>; // Splide options
 }
 
