@@ -26,7 +26,7 @@ declare module "next-auth" {
 
   interface Session {
     user: {
-      id: number;
+      id?: number | string | undefined;
       name?: string | null;
       email?: string | null;
       image?: string | null;
@@ -84,7 +84,7 @@ export const {
     async session({ session, token, user }) {
       // Add user ID to session
       if (session.user) {
-        session.user.id = token.id || user.id
+        session.user.id = String(token.id || user.id)
       }
       return session
     }
@@ -99,7 +99,7 @@ export const {
       console.log('New user created:', message.user.email)
     },
     async signOut(message) {
-      console.log('User signed out:', message.user?.email);
+      console.log('User signed out:');
 
       // Custom logic to reset the session if needed
       // You can optionally clear cookies or perform other actions here
