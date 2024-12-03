@@ -21,7 +21,7 @@ function Recommendation() {
     useEffect(() =>{
         const fetchRecommendation = async () => {
         try{
-            const response = await fetch("/api/suggest-cuisines");
+            const response = await fetch("https://qsgjz936-3000.asse.devtunnels.ms/api/suggest-cuisines");
             const data = await response.json();
             setRecommendation(data);
         } catch (error) {
