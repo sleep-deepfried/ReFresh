@@ -14,7 +14,7 @@ function RecipeDetailsModal() {
             <div className="bg-[url(`/assets/${selectedRecipe.food_name.toLowerCase().replace(/\s+/g, '-')}.png`)] bg-fixed bg-top bg-no-repeat h-full w-full bg-contain rounded-md relative">
                 <button 
                     onClick={closeRecipeDetails} 
-                    className="z-10 absolute top-3 text-white text-5xl"
+                    className="z-10 absolute top-3 left-4 text-black text-5xl"
                 >
                     <IoIosArrowBack />
                 </button>
