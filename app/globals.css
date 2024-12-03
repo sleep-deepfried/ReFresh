@@ -10,11 +10,28 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #252525;
-    --foreground: #E8ECEF;
+    --foreground: #e8ecef;
   }
 }
 
 body {
   color: var(--background);
   background: var(--foreground);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out;
+}
+
+.delay-300 {
+  animation-delay: 0.3s;
 }

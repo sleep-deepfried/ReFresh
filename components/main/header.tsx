@@ -17,7 +17,7 @@ export default async function Header() {
     const userName = session?.user?.name?.split(" ")[0] || "Guest";
 
     return (
-        <div className="py-4 px-7 rounded-b-3xl bg-[#e0e0e0] shadow-[3px_3px_3px_3px_#9f9f9f,-3px_-3px_3px_3px_#ffffff]">
+        <div className="py-4 px-7 rounded-b-3xl bg-[#ffffff] shadow-[3px_3px_3px_3px_#c5c9cb,-3px_-3px_3px_3px_#ffffff]">
             <div className="flex flex-row justify-between items-center">
                 <div className="flex flex-row space-x-4">
                     <form
@@ -33,15 +33,15 @@ export default async function Header() {
                             <Image 
                                 src={userImage} 
                                 alt="Profile" 
-                                width={50} 
-                                height={50} 
-                                className="object-cover"
+                                width={60} 
+                                height={60} 
+                                className="object-cover border border-black rounded-full"
                             />
                         </button>
                     </form>
-                    <div>
-                        <p>Hey, {userName}!</p>
-                        <p>How&apos;s your diet today</p> 
+                    <div className="flex flex-col justify-center">
+                        <p className="text-2xl font-bold">Hey, {userName}!</p>
+                        <p className="text-sm">How&apos;s your diet today</p> 
                     </div>
                 </div>
 

@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { RecommendationProps } from "@/types"
 import { useRecipeDetails } from '@/providers/recipe-details-context';
-// import { RecipeProps } from '@/types';
 
 
 function RecommendationSection({ title, linkText, linkHref, items }: RecommendationProps) {

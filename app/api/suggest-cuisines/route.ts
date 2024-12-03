@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
 
         const prompt = `
         I have the following food inventory: ${inventoryList}. 
-        Suggest 3 traditional Filipino cuisine recipes that can be made using these ingredients. 
+        Suggest 5 traditional Filipino cuisine recipes that can be made using these ingredients. 
         IMPORTANT: Your ENTIRE response must be a VALID JSON matching this exact structure:
         {
             "recipes": [

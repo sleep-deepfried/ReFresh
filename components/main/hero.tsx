@@ -27,7 +27,7 @@ function AddRemoveCard(){
                     <Image src="/assets/holding-phone.svg" alt="alt" width={75} height={30} />
                 </div>
             </div>
-            <div className="flex justify-between text-lg font-bold">
+            <div className="flex justify-center text-lg font-bold gap-10">
                 <button className=" flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-8 justify-between relative"
                         onClick={() =>window.location.href = "/home/inventory"}
                 >

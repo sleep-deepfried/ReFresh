@@ -1,14 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-import 'material-icons/iconfont/material-icons.css';
-
-
-const poppins = localFont({
-  src: "./fonts/poppins-v21-latin-regular.woff2",
-  variable: "--font-poppins",
-  weight: "100 900",
-});
+import ClientLayout from "./client-layout";
 
 export const metadata: Metadata = {
   title: "ReFresh",
@@ -20,13 +11,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${poppins.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+  return <ClientLayout>{children}</ClientLayout>;
 }

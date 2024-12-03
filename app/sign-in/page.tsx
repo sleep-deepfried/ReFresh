@@ -65,7 +65,7 @@ function SignIn() {
                 <div className="flex space-x-4 text-lg text-[#fafafc] font-semibold">
                     {/* Google Sign-In */}
                     <button
-                    onClick={() => signIn("google", { callbackUrl: "/" })} // Sign in with Google
+                    onClick={() => signIn("google", { callbackUrl: "/home" })} // Sign in with Google
                     className="flex justify-center items-center min-w-40 py-2 bg-orange rounded-lg space-x-2"
                     >
                     <Image src="/assets/google.svg" alt="Google" width={30} height={30} />
