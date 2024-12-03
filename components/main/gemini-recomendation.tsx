@@ -23,7 +23,10 @@ function RecommendationSection({ title, linkText, linkHref, items }: Recommendat
             className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] p-3"
             >
                 <div className="flex space-x-7">
-                    <Image src={item.src} alt={item.alt} width={125} height={40} />
+                    <Image src={item.src} alt={item.alt} width={125} height={40}  className="rounded-xl" onError={(e) => {
+                                    const imgElement = e.currentTarget as HTMLImageElement;
+                                    imgElement.src = '/assets/recommended-default.jpg';
+                                }}/>
                     <div className="space-y-2">
                     <div>
                         <p className="font-bold">{item.title}</p>

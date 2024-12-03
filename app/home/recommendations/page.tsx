@@ -9,6 +9,8 @@ import dynamic from "next/dynamic";
 import { RecommendationItem } from "@/types"
 import { RecipeDetailsProvider } from '@/providers/recipe-details-context';
 import RecipeDetailsModal from "@/components/main/[food_name]-recipe";
+import Navbar from "@/components/main/navbar";
+
 
 const GeminiRecommendation = dynamic(() => import('@components/main/gemini-recomendation'), { ssr: false });
 
@@ -37,13 +39,16 @@ function Recommendation() {
         gap: '1rem',
         arrows: false,
     };
+    
 
     const recommendationItems = recommendation.map(item => ({
-        ...item, // Spread all original properties
-        src: `/assets/${item.food_name.toLowerCase().replace(/\s+/g, '-')}.svg`, // Generate SVG path
-        alt: item.food_name,
-        title: item.food_name, // Add title property
-        description: item.description, // Add description property
+        ...item,
+        src: item.food_name 
+            ? `/assets/${item.food_name.toLowerCase().replace(/\s+/g, '-')}.svg` 
+            : '/assets/recommended-default.jpg',
+        alt: item.food_name || 'Recommended Meal',
+        title: item.food_name || 'Unknown Meal', 
+        description: item.description || 'No description available'
     }));
 
     return(
@@ -81,6 +86,7 @@ function Recommendation() {
                 )}
                 <RecipeDetailsModal />
             </div>
+            <Navbar />
         </RecipeDetailsProvider>
     );
 }

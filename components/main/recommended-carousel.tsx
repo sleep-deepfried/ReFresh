@@ -15,7 +15,6 @@ function RecommendedCarousel({ slides = [] }: RecommendedItemProps) {
     const [recommended, setRecommended] = useState<RecommendationItem[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // Move the context hook inside the component
     const recipeDetailsContext = useRecipeDetails();
 
     useEffect(() => {
@@ -38,6 +37,19 @@ function RecommendedCarousel({ slides = [] }: RecommendedItemProps) {
     // Use recommendations if available, otherwise use slides prop (also limited to 3)
     const itemsToDisplay = recommended.length > 0 ? recommended : slides.slice(0, 3);
 
+    const getImageSrc = (foodName: string) => {
+        const formattedName = foodName.toLowerCase().replace(/\s+/g, '-');
+        const imagePath = `/assets/${formattedName}.svg`;
+        
+        // Check if the image exists, if not, return default
+        try {
+            // This is a client-side check, you might want to handle this differently
+            return imagePath;
+        } catch {
+            return '/assets/recommended-default.jpg'; // Ensure this default image exists
+        }
+    };
+
     return (
         <div className="py-3 px-4 space-y-4 gap-4">
             {loading ? (
@@ -50,10 +62,15 @@ function RecommendedCarousel({ slides = [] }: RecommendedItemProps) {
                     >
                         <div className="flex space-x-7">
                             <Image 
-                                src={`/assets/${item.food_name.toLowerCase().replace(/\s+/g, '-')}.svg`} 
+                                src={getImageSrc(item.food_name)}
                                 alt={item.food_name} 
+                                className='rounded-xl'
                                 width={125} 
                                 height={40} 
+                                onError={(e) => {
+                                    const imgElement = e.currentTarget as HTMLImageElement;
+                                    imgElement.src = '/assets/recommended-default.jpg';
+                                }}
                             />
                             <div className="space-y-2">
                                 <div>

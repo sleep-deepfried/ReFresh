@@ -32,10 +32,20 @@ function Navbar() {
             }`}
         >
             <div className="flex items-center justify-around bg-orange p-2 mx-10 mb-4 rounded-xl shadow-lg text-white">
-                <button className="p-2 hover:bg-black/15 rounded-md transition-colors">
+                <button className="p-2 hover:bg-black/15 rounded-md transition-colors"
+                    onClick={() => {
+                        console.log("Navigating to Home");
+                        window.location.href = "/home";
+                    }}
+                >
                     <TbHome className="text-2xl" />
                 </button>
-                <button className="p-2 hover:bg-black/15 rounded-md transition-colors">
+                <button className="p-2 hover:bg-black/15 rounded-md transition-colors"
+                    onClick={() => {
+                        console.log("Navigating to recommndations");
+                        window.location.href = "/home/recommndations";
+                    }}
+                >
                     <GiKnifeFork className="text-2xl" />
                 </button>
                 <button className="p-2 hover:bg-black/15 rounded-md transition-colors">
