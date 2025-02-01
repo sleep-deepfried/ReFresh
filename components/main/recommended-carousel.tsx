@@ -20,7 +20,7 @@ function RecommendedCarousel({ slides = [] }: RecommendedItemProps) {
     useEffect(() => {
         const fetchRecommendations = async () => {
             try {
-                const response = await fetch("https://qsgjz936-3000.asse.devtunnels.ms/api/suggest-cuisines");
+                const response = await fetch("http://47.129.131.225/api/suggest-cuisiness");
                 const data = await response.json();
                 // Limit to first 3 recommendations
                 setRecommended(data.slice(0, 3));
