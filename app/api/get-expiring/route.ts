@@ -10,6 +10,9 @@ const pool = new Pool({
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
+  ssl:{
+    rejectUnauthorized: false,
+  },
 });
 
 // Function to calculate days until expiration
@@ -37,7 +40,7 @@ export async function GET(req: NextRequest) {
     // Query to get items expiring within the next 2 days
     const query = `
       SELECT 
-        "inventoryID" as id, 
+        "inventoryid" as id, 
         food_name as foodname, 
         food_type as foodtype, 
         best_before, 

@@ -79,7 +79,7 @@ function Inventory() {
                         <div className="text-[7px] space-y-1">
                             <p>Stored at: {new Date(item.entry_date).toLocaleDateString()}</p>
                             <p>
-                            Best Before: {new Date(`1970-01-01T${item.best_before}`).toLocaleTimeString()}
+                            Best Before: {new Date(item.best_before).toLocaleDateString()}
                             </p>
                         </div>
                     </div>

@@ -10,12 +10,15 @@ const pool = new Pool({
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
+    ssl:{
+        rejectUnauthorized: false,
+    },
 });
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 interface InventoryItem {
-    inventoryID: number;
+    inventoryid: number;
     food_name: string;
     food_type: string;
     quantity: number;
@@ -41,7 +44,7 @@ interface RecipeRecommendation {
 export async function GET(req: NextRequest) {
     try {
         const inventoryQuery = `
-        SELECT "inventoryID", food_name, food_type, quantity
+        SELECT "inventoryid", food_name, food_type, quantity
         FROM public.food_inventory
         WHERE quantity > 0;
         `;

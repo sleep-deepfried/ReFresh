@@ -10,6 +10,9 @@ const pool = new Pool({
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
+  ssl:{
+    rejectUnauthorized: false,
+  },
 });
 
 // Named export for the GET method
@@ -18,7 +21,7 @@ export async function GET(req: NextRequest) {
   try {
     // Query the food_inventory table
     const query = `
-      SELECT "inventoryID", food_name, food_type, entry_date, best_before, confidence, quantity
+      SELECT "inventoryid", food_name, food_type, entry_date, best_before, confidence, quantity
       FROM public.food_inventory;
     `;
     const result = await pool.query(query);
