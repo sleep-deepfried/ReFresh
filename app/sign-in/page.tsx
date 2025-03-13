@@ -27,7 +27,7 @@ function SignIn() {
                 <FaUser />
                 </div>
                 <input
-                className="pl-10 pr-4 rounded-lg bg-[#e0e0e0] shadow-[inset_5px_5px_10px_#bebebe,inset_-5px_-5px_10px_#ffffff] w-full text-gray-400 h-10 outline-none focus:outline-none focus:text-black"
+                className="pl-10 pr-4 rounded-lg bg-[#e0e0e0] shadow-[inset_5px_5px_10px_#bebebe,inset_-5px_-5px_10px_#ffffff] w-full text-gray-400 h-10 outline-hidden focus:outline-hidden focus:text-black"
                 placeholder="Username"
                 />
             </div>
@@ -39,7 +39,7 @@ function SignIn() {
                 </div>
                 <input
                 type="password"
-                className="pl-10 pr-4 rounded-lg bg-[#e0e0e0] shadow-[inset_5px_5px_10px_#bebebe,inset_-5px_-5px_10px_#ffffff] w-full text-gray-400 h-10 outline-none focus:outline-none"
+                className="pl-10 pr-4 rounded-lg bg-[#e0e0e0] shadow-[inset_5px_5px_10px_#bebebe,inset_-5px_-5px_10px_#ffffff] w-full text-gray-400 h-10 outline-hidden focus:outline-hidden"
                 placeholder="Password"
                 />
             </div>
@@ -56,9 +56,9 @@ function SignIn() {
         {/* Social Sign-In */}
         <div className="space-y-3">
             <div className="flex justify-center items-center text-gray-400">
-                <hr className="w-1/3 h-0.5 bg-gradient-to-r from-transparent to-gray-400" />
+                <hr className="w-1/3 h-0.5 bg-linear-to-r from-transparent to-gray-400" />
                 <p className="px-2 text-sm">Or continue with</p>
-                <hr className="w-1/3 h-0.5 bg-gradient-to-l from-transparent to-gray-400" />
+                <hr className="w-1/3 h-0.5 bg-linear-to-l from-transparent to-gray-400" />
             </div>
 
             <div className="space-y-3 flex flex-col items-center">

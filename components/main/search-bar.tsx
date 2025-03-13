@@ -8,7 +8,7 @@ function    SearchBar(){
                     <FaSearch />
                 </div>
                 <input 
-                    className="pl-10 pr-4 rounded-[50px] bg-[#e0e0e0] shadow-[inset_5px_5px_10px_#bebebe,inset_-5px_-5px_10px_#ffffff] w-full text-gray-400 h-10 outline-none focus:outline-none"
+                    className="pl-10 pr-4 rounded-[50px] bg-[#e0e0e0] shadow-[inset_5px_5px_10px_#bebebe,inset_-5px_-5px_10px_#ffffff] w-full text-gray-400 h-10 outline-hidden focus:outline-hidden"
                     placeholder="Search"
                 />
             </div>

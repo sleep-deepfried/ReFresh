@@ -10,7 +10,7 @@ function RecipeDetailsModal() {
     if (!selectedRecipe) return null;
 
     return (
-        <div className="absolute inset-0 backdrop-blur-sm block h-full">
+        <div className="absolute inset-0 backdrop-blur-xs block h-full">
             <div className="bg-[url(`/assets/${selectedRecipe.food_name.toLowerCase().replace(/\s+/g, '-')}.png`)] bg-fixed bg-top bg-no-repeat h-full w-full bg-contain rounded-md relative">
                 <button 
                     onClick={closeRecipeDetails} 
