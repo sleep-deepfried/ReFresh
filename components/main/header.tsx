@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { IoIosNotifications } from "react-icons/io";
+import { IoMdNotificationsOutline } from "react-icons/io";
 
 import { auth } from "@/auth";
 import { signOut } from "@/auth"
@@ -45,7 +45,7 @@ export default async function Header() {
                     </div>
                 </div>
 
-                <IoIosNotifications className="text-4xl" />
+                <IoMdNotificationsOutline className="text-4xl" />
             </div>
         </div>
     );

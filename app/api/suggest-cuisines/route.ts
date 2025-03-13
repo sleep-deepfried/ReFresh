@@ -10,9 +10,7 @@ const pool = new Pool({
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
-    ssl:{
-        rejectUnauthorized: false,
-    },
+    ssl:false
 });
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
@@ -66,7 +64,7 @@ export async function GET(req: NextRequest) {
                 "food_name": "Recipe Name",
                 "tagline": "Quick Pinoy Delight",
                 "description": "Full recipe description",
-                "category": "Meal Category",
+                "category": "Meal Category (Breakfast, Lunch, Dinner, Snack, Dessert) only!!!",
                 "ingredients": [
                 {
                     "id": 1,

@@ -2371,6 +2371,7 @@
     "packageJson": {
       "dependencies": [
         "npm:@auth/pg-adapter@^1.7.4",
+        "npm:@aws-sdk/client-ssm@^3.759.0",
         "npm:@google/generative-ai@0.21",
         "npm:@splidejs/react-splide@~0.7.12",
         "npm:@splidejs/splide@^4.1.4",
