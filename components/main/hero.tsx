@@ -59,7 +59,7 @@ function AddRemoveCard(){
                     <Image src="/assets/holding-phone.svg" alt="alt" width={75} height={30} />
                 </div>
             </div>
-            <div className="flex justify-center text-lg font-bold gap-10">
+            <div className="flex justify-center text-lg font-bold gap-5">
                 <button className=" flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-8 justify-between relative"
                         onClick={() =>window.location.href = "/home/inventory"}
                 >
@@ -75,13 +75,13 @@ function AddRemoveCard(){
                     <button className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-16 justify-between relative"
                             onClick={() =>window.location.href = "/home/recommendations"}
                     >
-                        <p>Your daily <br />meal</p>
+                        <p className="text-left">Your daily meal</p>
                         <div className="absolute right-0 bottom-0">
                             <Image src="/assets/daily-meal.svg" alt="alt" width={60} height={50} />
                         </div>
                     </button>
                     <button className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 pr-16 relative">
-                        <p>Health <br/> Tracker</p>
+                        <p className="text-left">Health Tracker</p>
                         <div className="absolute right-0">
                             <Image src="/assets/health.svg" alt="alt" width={55} height={55} />
                         </div>

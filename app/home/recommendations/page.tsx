@@ -21,7 +21,7 @@ function Recommendation() {
     useEffect(() =>{
         const fetchRecommendation = async () => {
         try{
-            const response = await fetch("https://47.129.131.225/api/suggest-cuisines");
+            const response = await fetch("http://47.129.131.225/api/suggest-cuisines");
             const data = await response.json();
             setRecommendation(data);
         } catch (error) {
@@ -43,9 +43,7 @@ function Recommendation() {
 
     const recommendationItems = recommendation.map(item => ({
         ...item,
-        src: item.food_name 
-            ? `/assets/${item.food_name.toLowerCase().replace(/\s+/g, '-')}.svg` 
-            : '/assets/recommended-default.jpg',
+        src: `/assets/${item.category.toLowerCase()}.svg`||'/assets/recommended-default.jpg',
         alt: item.food_name || 'Recommended Meal',
         title: item.food_name || 'Unknown Meal', 
         description: item.description || 'No description available'
