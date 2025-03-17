@@ -5,10 +5,14 @@ import React, { useState } from "react";
 import ItemList from "./item-list"; // Import the new ItemList component
 
 export default function Remove({ onClose }: {onClose: () => void}) {
-    const [currentItems, setCurrentItems] = useState([]);
+    const [currentItems, setCurrentItems] = useState<Item[]>([]);
     
     // Handle updating the current items from the ItemList component
-    const handleItemsUpdate = (items) => {
+    interface Item {
+        name: string;
+        quantity: number;
+    }
+    const handleItemsUpdate = (items:Item[]) => {
         setCurrentItems(items);
     };
     
@@ -48,7 +52,11 @@ export default function Remove({ onClose }: {onClose: () => void}) {
             onClose();
         } catch (error) {
             console.error('Error adding items:', error);
-            alert(`Error adding items: ${error.message}`);
+            if (error instanceof Error) {
+                alert(`Error adding items: ${error.message}`);
+            } else {
+                alert('Error adding items');
+            }
         }
     };
 

@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import { FaCamera } from "react-icons/fa";
 
 // ItemRow component for each item row
-const ItemRow = ({ name, count, onIncrement, onDecrement }) => {
+interface ItemRowProps {
+  name: string;
+  count: number;
+  onIncrement: () => void;
+  onDecrement: () => void;
+}
+
+const ItemRow: React.FC<ItemRowProps> = ({ name, count, onIncrement, onDecrement }) => {
   return (
     <div className="flex justify-between px-10 items-center">
       <p className="text-base">
@@ -30,10 +37,14 @@ const ItemRow = ({ name, count, onIncrement, onDecrement }) => {
 };
 
 // ItemList component to display all items and handle the detect function
-const ItemList = ({ onItemsUpdate }) => {
-  const [items, setItems] = useState({});
+interface ItemListProps {
+  onItemsUpdate?: (items: { name: string; quantity: number; confidence: number }[]) => void;
+}
+
+const ItemList: React.FC<ItemListProps> = ({ onItemsUpdate }) => {
+  const [items, setItems] = useState<{ [key: string]: { name: string; count: number; confidence: number } }>({});
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleDetect = async () => {
     setLoading(true);
@@ -58,7 +69,7 @@ const ItemList = ({ onItemsUpdate }) => {
         // Update the items state with the detected items
         const newItems = { ...items };
         
-        data.detected_items.forEach(item => {
+        data.detected_items.forEach((item: { name: string; quantity: number; confidence: number }) => {
           newItems[item.name] = {
             name: item.name,
             count: item.quantity,
@@ -82,13 +93,17 @@ const ItemList = ({ onItemsUpdate }) => {
       }
     } catch (error) {
       console.error("Error detecting items:", error);
-      setError(`Detection failed: ${error.message}`);
+      if (error instanceof Error) {
+        setError(`Detection failed: ${error.message}`);
+      } else {
+        setError("Detection failed: An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const handleIncrement = (name) => {
+  const handleIncrement = (name: string) => {
     setItems(prev => {
       const updated = {
         ...prev,
@@ -112,7 +127,7 @@ const ItemList = ({ onItemsUpdate }) => {
     });
   };
 
-  const handleDecrement = (name) => {
+  const handleDecrement = (name: string) => {
     setItems(prev => {
       const updated = {
         ...prev,
