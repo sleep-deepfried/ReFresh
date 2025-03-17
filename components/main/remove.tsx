@@ -28,7 +28,7 @@ export default function Remove({ onClose }: {onClose: () => void}) {
                 `quantity_${encodeURIComponent(item.name)}=${item.quantity}`
             ).join('&');
             
-            const response = await fetch(`https://deciding-partly-cowbird.ngrok-free.app/add?${queryParams}`, {
+            const response = await fetch(`https://deciding-partly-cowbird.ngrok-free.app/remove?${queryParams}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

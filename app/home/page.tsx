@@ -11,9 +11,9 @@ export default function Home() {
       <div className="z-20">
       <Hero  />
       </div>
-      {/* <Expiring /> */}
+      <Expiring />
       <Navbar />
-      {/* <Recommended /> */}
+      <Recommended />
     </main>
   );
 }
