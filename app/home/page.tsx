@@ -8,10 +8,12 @@ export default function Home() {
   return (
     <main className="pb-24"> {/* Add padding bottom to prevent content from being hidden behind navbar */}
       <Header />
-      <Hero />
-      <Expiring />
+      <div className="z-20">
+      <Hero  />
+      </div>
+      {/* <Expiring /> */}
       <Navbar />
-      <Recommended />
+      {/* <Recommended /> */}
     </main>
   );
 }

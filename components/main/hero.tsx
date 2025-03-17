@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { IoIosAddCircle, IoIosRemoveCircle} from "react-icons/io";
 import Add from "./add";
+import Remove from "./remove";
 
 function AddRemoveCard(){
     const createRipple = (event: React.MouseEvent<HTMLButtonElement>, action:() => void) => {
@@ -28,7 +29,8 @@ function AddRemoveCard(){
         }, 800);
     } // Remove ripple after animation
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isAddOpen, setIsAddOpen] = useState(false);
+    const [isRemoveOpen, setIsRemoveOpen] = useState(false);    
     return(
         <div className="relative p-5 space-y-6">
             <div className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] p-4 justify-between relative">
@@ -39,14 +41,14 @@ function AddRemoveCard(){
                     <div className="flex text-white font-semibold text-sm gap-3">
                         <button
                         className="relative overflow-hidden flex items-center bg-orange rounded-xl space-x-1 min-w-24 justify-center py-2"
-                        onClick={(e) => createRipple(e, () => setIsOpen(true))}
+                        onClick={(e) => createRipple(e, () => setIsAddOpen(true))}
                         >
                             <IoIosAddCircle />
                             <p>Add</p>
                         </button>
                         <button
                         className="relative overflow-hidden flex items-center bg-orange rounded-xl space-x-1 min-w-24 justify-center py-2"
-                        onClick={(e) => createRipple(e, () => setIsOpen(true))}
+                        onClick={(e) => createRipple(e, () => setIsRemoveOpen(true))}
                         >
                             <IoIosRemoveCircle />
                             <p>Remove</p>
@@ -89,7 +91,8 @@ function AddRemoveCard(){
                 </div>
             </div>
 
-            {isOpen && (<Add onClose={() => setIsOpen(false)}/>)}
+            {isAddOpen && (<Add onClose={() => setIsAddOpen(false)}/>)}
+            {isRemoveOpen && (<Remove onClose={() => setIsRemoveOpen(false)}/>)}
         </div>
     );
 }

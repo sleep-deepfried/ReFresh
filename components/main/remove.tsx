@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import ItemList from "./item-list"; // Import the new ItemList component
 
-export default function Add({ onClose }: {onClose: () => void}) {
+export default function Remove({ onClose }: {onClose: () => void}) {
     const [currentItems, setCurrentItems] = useState([]);
     
     // Handle updating the current items from the ItemList component
@@ -55,10 +55,10 @@ export default function Add({ onClose }: {onClose: () => void}) {
     return(
         <div className="fixed backdrop-blur-md h-full w-full -top-10 left-0 justify-center items-center flex">
             <div className="relative h-[455px] w-[315px] bg-white rounded-3xl ">
-                <Image src="/assets/cherry.svg" alt="cherry" width={112} height={84} className="absolute z-20 top-10"/>
-                <Image src="/assets/watermellon.svg" alt="melon" width={130} height={98} className="absolute bottom-13 right-0"/>
+                <Image src="/assets/grass.svg" alt="grass" width={160} height={155} className="absolute left-0"/>
+                <Image src="/assets/leaf.svg" alt="leaf" width={130} height={98} className="absolute bottom-13 right-0"/>
                 <div className="flex flex-col justify-center items-center h-full gap-5 z-20">
-                    <p className="font-bold text-xl">Add</p>
+                    <p className="font-bold text-xl">Remove</p>
 
                     <div className="inset-shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-2xl h-[253px] w-[233px] bg-white">
                         {/* Pass the onItemsUpdate prop to ItemList */}
