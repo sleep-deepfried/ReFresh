@@ -43,7 +43,7 @@ function Recommendation() {
 
     const recommendationItems = recommendation.map(item => ({
         ...item,
-        src: `/assets/${item.category.toLowerCase()}.svg`||'/assets/recommended-default.jpg',
+        src: `/assets/${item.category.toLowerCase()}.svog`||'/assets/recommended-default.jpg',
         alt: item.food_name || 'Recommended Meal',
         title: item.food_name || 'Unknown Meal', 
         description: item.description || 'No description available'
