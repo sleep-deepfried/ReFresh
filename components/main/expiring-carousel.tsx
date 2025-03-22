@@ -44,7 +44,7 @@ function ExpiringCarousel({ slides = [], options }: ExpiryCarouselProps) {
     const itemsToDisplay = expiration.length > 0 ? expiration : slides;
 
     return (
-        <div className="py-3 px-4">
+        <div className="py-3 px-4 z-10">
             {loading ? (
                 <p>Loading...</p>
             ) : itemsToDisplay.length > 0 ? (

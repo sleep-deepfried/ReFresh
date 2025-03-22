@@ -61,6 +61,26 @@ export default function Add({ onClose }: {onClose: () => void}) {
         }
     };
 
+    const handleCancel = async () => {
+        try {
+            // Call the clear endpoint
+            await fetch("https://deciding-partly-cowbird.ngrok-free.app/clear", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': '1'
+                }
+            });
+            
+            // Close the dialog
+            onClose();
+        } catch (error) {
+            console.error('Error clearing items:', error);
+            // Still close the dialog even if clearing fails
+            onClose();
+        }
+    };
+
     return(
         <div className="fixed backdrop-blur-md h-full w-full -top-10 left-0 justify-center items-center flex">
             <div className="relative h-[455px] w-[315px] bg-white rounded-3xl ">
@@ -76,7 +96,7 @@ export default function Add({ onClose }: {onClose: () => void}) {
 
                     <div className="flex gap-5">
                         <button className="font-medium text-sm border border-black px-6 py-px rounded-2xl shadow-md shadow-neutral-200"
-                            onClick={onClose}
+                            onClick={handleCancel}
                         >
                             Cancel
                         </button>
