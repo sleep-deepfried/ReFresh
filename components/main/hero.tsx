@@ -5,7 +5,7 @@ import Image from "next/image";
 import { IoIosAddCircle, IoIosRemoveCircle} from "react-icons/io";
 import Add from "./add";
 import Remove from "./remove";
-import Expiring from "./expiring";
+// import Expiring from "./expiring";
 import Recommended from "./recommended";
 
 function AddRemoveCard(){
@@ -95,7 +95,7 @@ function AddRemoveCard(){
 
             {isAddOpen && (<Add onClose={() => setIsAddOpen(false)}/>)}
             {isRemoveOpen && (<Remove onClose={() => setIsRemoveOpen(false)}/>)}
-            <Expiring />
+            {/* <Expiring /> */}
             <Recommended />
         </div>
     );
