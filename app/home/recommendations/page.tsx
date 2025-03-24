@@ -21,7 +21,7 @@ function Recommendation() {
     useEffect(() =>{
         const fetchRecommendation = async () => {
         try{
-            const response = await fetch("https://https://gemini-refresh.duckdns.org/api/suggest-cuisines");
+            const response = await fetch("https://gemini-refresh.duckdns.org/api/suggest-cuisines");
             const data = await response.json();
             setRecommendation(data);
         } catch (error) {
