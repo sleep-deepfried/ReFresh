@@ -26,8 +26,5 @@ export type RecommendationItems = RecommendationItem &{
   }
 
 export type RecommendationProps = {
-    title: string; // Section title
-    linkText: string; // Text for the link
-    linkHref: string; // Link URL
     items: RecommendationItems[]; // Array of recommendation items
   }

@@ -43,7 +43,7 @@ function Navbar() {
                 <button className="p-2 hover:bg-black/15 rounded-md transition-colors"
                     onClick={() => {
                         console.log("Navigating to recommendations");
-                        window.location.href = "/home/recommndations";
+                        window.location.href = "/home/recommendations";
                     }}
                 >
                     <GiKnifeFork className="text-2xl" />
