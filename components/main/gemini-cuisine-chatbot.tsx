@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { Bot } from "lucide-react";
 
 const GeminiCuisineChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -158,7 +157,7 @@ const GeminiCuisineChatbot = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition"
       >
-        <Bot size={24} />
+        Bot
       </button>
 
       {/* Chat Modal */}
