@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { IoMdSend } from "react-icons/io";
+import { LuBot } from "react-icons/lu";
 
 const GeminiCuisineChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -130,13 +132,13 @@ const GeminiCuisineChatbot = () => {
     return text
       .replace(
         /^## (.*$)/gim,
-        '<h2 class="text-xl font-bold mt-3 text-blue-700">$1</h2>'
+        '<h2 class="text-xl font-bold mt-3 text-orange-600">$1</h2>'
       ) // Headers with color
       .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>') // Bold
       .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>') // Italics
       .replace(
         /^### (.*$)/gim,
-        '<h3 class="text-lg font-semibold mt-2 text-blue-600">$1</h3>'
+        '<h3 class="text-lg font-semibold mt-2 text-orange-700">$1</h3>'
       ) // Sub-headers
       .replace(
         /^\* (.*$)/gim,
@@ -149,23 +151,25 @@ const GeminiCuisineChatbot = () => {
       .replace(/\n/g, "<br/>"); // Line breaks
   }
 
-  // Rest of the component remains the same...
   return (
-    <div className="fixed bottom-7 right-4 z-50">
-      {/* Chatbot Trigger Button */}
+    <div className="fixed bottom-20 right-0 z-50">
+      {/* Modified Chatbot Trigger Button - Half Oval */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition"
+        className="bg-[#048469] text-white py-3 pl-6 pr-4 rounded-l-full shadow-lg transition flex items-center"
+        style={{ borderTopRightRadius: "0", borderBottomRightRadius: "0" }}
       >
-        Bot
+        <span>
+          <LuBot className="text-2xl" />
+        </span>
       </button>
 
       {/* Chat Modal */}
       {isOpen && (
         <div className="fixed bottom-20 right-4 w-96 bg-white shadow-xl rounded-lg border">
           {/* Chat Header */}
-          <div className="bg-blue-500 text-white p-3 rounded-t-lg flex justify-between items-center">
-            <h3 className="font-bold">Filipino Cuisine Assistant</h3>
+          <div className="bg-[#048469] text-white p-3 rounded-t-lg flex justify-between items-center">
+            <h3 className="font-bold">Ninong Ry</h3>
             <button onClick={() => setIsOpen(false)} className="text-white">
               ✕
             </button>
@@ -178,8 +182,8 @@ const GeminiCuisineChatbot = () => {
                 key={index}
                 className={`mb-4 p-3 rounded-2xl ax ${
                   msg.role === "user"
-                    ? "bg-blue-100 text-right ml-auto"
-                    : "bg-green-100 text-left mr-auto"
+                    ? "bg-[#048469] text-right ml-auto text-white w-fit"
+                    : "bg-green-100 text-justify mr-auto text-black"
                 }`}
               >
                 <div
@@ -210,15 +214,15 @@ const GeminiCuisineChatbot = () => {
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
               placeholder="Ask about Filipino cuisine..."
-              className="flex-grow p-2 border rounded mr-2"
+              className="flex-grow p-2 border rounded mr-2 text-black"
               disabled={isLoading}
             />
             <button
               onClick={handleSendMessage}
-              className="bg-blue-500 text-white p-2 rounded"
+              className="bg-[#048469] text-white py-2 px-3 rounded"
               disabled={isLoading}
             >
-              Send
+              <IoMdSend className="text-xl" />
             </button>
           </div>
         </div>
