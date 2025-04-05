@@ -12,7 +12,7 @@ export default function Home() {
       <div className="z-20">
         <Hero />
       </div>
-      <div className="z-10">
+      <div className="z-10 bg-white min-h-screen">
         <Expiring />
       </div>
       <Navbar />
