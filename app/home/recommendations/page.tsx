@@ -7,10 +7,10 @@ import { RecommendationItem } from "@/types";
 import { RecipeDetailsProvider } from "@/providers/recipe-details-context";
 import RecipeDetailsModal from "@/components/main/[food_name]-recipe";
 import Navbar from "@/components/main/navbar";
-import RecommendationsSkeleton from "@/components/main/recommendation-skeleton";
+import RecommendationsSkeleton from "@/components/main/recommendations/recommendation-skeleton";
 
 const GeminiRecommendation = dynamic(
-  () => import("@components/main/gemini-recomendation"),
+  () => import("@/components/main/recommendations/gemini-recomendation"),
   { ssr: false }
 );
 

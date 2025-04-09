@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ClientLayout from "./client-layout";
-import GeminiCuisineChatbot from "@components/main/gemini-cuisine-chatbot"; // Import the chatbot component
+import GeminiCuisineChatbot from "@/components/main/recommendations/gemini-cuisine-chatbot"; // Import the chatbot component
 
 export const metadata: Metadata = {
   title: "ReFresh",
