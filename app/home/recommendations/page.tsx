@@ -80,7 +80,7 @@ function Recommendation() {
 
   return (
     <RecipeDetailsProvider>
-      <div className="overflow-x-hidden relative bg-white text-black">
+      <div className="overflow-x-hidden relative bg-[#E8ECEF] text-black">
         {/* Header */}
         <div className="relative flex px-6 pt-8 pb-20">
           <p className="text-4xl font-bold absolute top-10">

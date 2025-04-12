@@ -227,9 +227,9 @@ export default function FoodCategoryRadarChart() {
               src={`/assets/food/${mostStoredItem.toLowerCase()}.png`}
               alt={mostStoredItem}
               width={25}
-              height={25}
+              height={20}
             />
-            <div className="text-xs">
+            <div className="text-xs space-y-2">
               <p>
                 Most Stored Item:{" "}
                 <span className="font-bold">{mostStoredItem}</span>
