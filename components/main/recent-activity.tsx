@@ -92,35 +92,37 @@ export default function RecentActivity() {
   }
 
   return (
-    <div className="px-8">
-      <h1 className="text-2xl font-bold">Recent Activity</h1>
-      <div className="rounded-3xl bg-gray-50 shadow-lg py-4 px-8">
-        {activities.length === 0 ? (
-          <p className="text-center text-gray-500 py-4">
-            No recent activities found
-          </p>
-        ) : (
-          activities.map((activity) => (
-            <div
-              key={activity.id}
-              className="flex flex-row justify-between items-center py-4 border-b border-gray-200 last:border-b-0"
-            >
-              <p className="text-gray-500 text-xs font-semibold">
-                Added to <br />
-                {activity.food_category}
-              </p>
-
-              <p className="font-bold text-black">{activity.food_item}</p>
-
-              <div className="flex flex-col items-center">
-                <p className="text-gray-500 text-xs">
-                  {formatDate(activity.activity_date)}
+    <div>
+      <h1 className="text-2xl font-bold pb-5 px-4">Recent Activity</h1>
+      <div className="px-8">
+        <div className="rounded-3xl bg-gray-50 shadow-lg py-4 px-8">
+          {activities.length === 0 ? (
+            <p className="text-center text-gray-500 py-4">
+              No recent activities found
+            </p>
+          ) : (
+            activities.map((activity) => (
+              <div
+                key={activity.id}
+                className="flex flex-row justify-between items-center py-4 border-b border-gray-200 last:border-b-0"
+              >
+                <p className="text-gray-500 text-xs font-semibold">
+                  Added to <br />
+                  {activity.food_category}
                 </p>
-                <p className="text-orange-500">+{activity.quantity}</p>
+
+                <p className="font-bold text-black">{activity.food_item}</p>
+
+                <div className="flex flex-col items-center">
+                  <p className="text-gray-500 text-xs">
+                    {formatDate(activity.activity_date)}
+                  </p>
+                  <p className="text-orange-500">+{activity.quantity}</p>
+                </div>
               </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

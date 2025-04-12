@@ -69,12 +69,12 @@ function ExpiringCarousel({ slides = [], options }: ExpiryCarouselProps) {
             {itemsToDisplay.map((item) => (
               <CarouselItem
                 key={item.id}
-                className={`pl-4 md:basis-1/${slidesToShow}`}
+                className={`pl-4 basis-1/${slidesToShow}`}
               >
-                <div className="rounded-3xl bg-[#fafafa] shadow-[inset_5px_5px_10px_#bebebe,inset_-5px_-5px_10px_#ffffff] p-4 h-52 w-48">
-                  <div className="flex flex-col justify-center items-center">
+                <div className="rounded-3xl bg-[#fafafa] shadow-[inset_5px_5px_10px_#bebebe,inset_-5px_-5px_10px_#ffffff] p-4 h-44 w-32">
+                  <div className="flex flex-col justify-between items-center">
                     <Image
-                      src={`/assets/${item.foodname.toLowerCase()}.png`}
+                      src={`/assets/food/${item.foodname.toLowerCase()}.png`}
                       alt={item.foodname}
                       width={130}
                       height={130}

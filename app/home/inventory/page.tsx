@@ -16,9 +16,35 @@ interface InventoryItem {
   quantity: number;
 }
 
+function InventorySkeleton() {
+  return (
+    <>
+      {[1, 2, 3, 4].map((item) => (
+        <div
+          key={item}
+          className="rounded-3xl bg-[#fafafa] shadow-[inset_5px_5px_10px_#bebebe,inset_-5px_-5px_10px_#ffffff] p-4"
+        >
+          <div className="flex flex-col justify-center items-center">
+            <div className="w-[130px] h-[130px] bg-gray-200 rounded-lg animate-pulse" />
+            <div className="flex justify-between w-full mt-2">
+              <div className="h-6 bg-gray-200 rounded w-24 animate-pulse" />
+              <div className="h-6 bg-gray-200 rounded w-8 animate-pulse" />
+            </div>
+          </div>
+          <div className="space-y-1 mt-2">
+            <div className="h-3 bg-gray-200 rounded w-full animate-pulse" />
+            <div className="h-3 bg-gray-200 rounded w-full animate-pulse" />
+          </div>
+        </div>
+      ))}
+    </>
+  );
+}
+
 function Inventory() {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchInventory = async () => {
@@ -36,6 +62,13 @@ function Inventory() {
     fetchInventory();
   }, []);
 
+  // Filter inventory based on search term
+  const filteredInventory = inventory.filter(
+    (item) =>
+      item.food_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.food_type.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="bg-white text-black min-h-screen">
       {/* Header */}
@@ -47,27 +80,25 @@ function Inventory() {
       </div>
 
       {/* Search Bar */}
-      <SearchBar />
+      <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
 
       {/* Inventory Items */}
       <div className="grid grid-cols-2 p-2 gap-6">
         {loading ? (
-          <p>Loading...</p>
-        ) : inventory.length > 0 ? (
-          inventory.map((item) => (
+          <InventorySkeleton />
+        ) : filteredInventory.length > 0 ? (
+          filteredInventory.map((item) => (
             <div
               key={item.inventoryID}
               className="rounded-3xl bg-[#fafafa] shadow-[inset_5px_5px_10px_#bebebe,inset_-5px_-5px_10px_#ffffff] p-4"
             >
               <div className="flex flex-col justify-center items-center">
                 <Image
-                  src={`/assets/${item.food_name.toLowerCase()}.png`}
+                  src={`/assets/food/${item.food_name.toLowerCase()}.png`}
                   alt={item.food_name}
                   width={130}
                   height={130}
-                  onError={
-                    (e) => (e.currentTarget.src = "/assets/logo.png") // Fallback image
-                  }
+                  onError={(e) => (e.currentTarget.src = "/assets/logo.png")}
                 />
                 <div className="flex justify-between font-bold w-full">
                   <p className="text-lg">{item.food_name}</p>
@@ -87,7 +118,11 @@ function Inventory() {
             </div>
           ))
         ) : (
-          <p>No inventory items found.</p>
+          <p className="col-span-2 text-center py-8">
+            {searchTerm
+              ? `No items found matching "${searchTerm}"`
+              : "No inventory items found."}
+          </p>
         )}
       </div>
     </div>

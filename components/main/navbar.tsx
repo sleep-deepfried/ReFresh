@@ -4,26 +4,35 @@ import { TbHome } from "react-icons/tb";
 import { GiKnifeFork } from "react-icons/gi";
 import { IoAnalytics } from "react-icons/io5";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 function Navbar() {
   const [visible, setVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
-
       setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
-
       setPrevScrollPos(currentScrollPos);
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [prevScrollPos]);
+
+  const isActive = (path: string) => {
+    if (path === "/home" && pathname === "/home") {
+      return true;
+    }
+    if (path !== "/home" && pathname?.includes(path)) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <div
@@ -33,27 +42,34 @@ function Navbar() {
     >
       <div className="flex items-center justify-around bg-orange p-2 mx-10 mb-4 rounded-xl shadow-lg text-white">
         <button
-          className="p-2 hover:bg-black/15 rounded-md transition-colors"
+          className={`p-2 rounded-md transition-colors ${
+            isActive("/home") ? "bg-black/15 font-bold" : "hover:bg-black/15"
+          }`}
           onClick={() => {
-            console.log("Navigating to Home");
             window.location.href = "/home";
           }}
         >
           <TbHome className="text-2xl" />
         </button>
         <button
-          className="p-2 hover:bg-black/15 rounded-md transition-colors"
+          className={`p-2 rounded-md transition-colors ${
+            isActive("/home/recommendations")
+              ? "bg-black/15 font-bold"
+              : "hover:bg-black/15"
+          }`}
           onClick={() => {
-            console.log("Navigating to recommendations");
             window.location.href = "/home/recommendations";
           }}
         >
           <GiKnifeFork className="text-2xl" />
         </button>
         <button
-          className="p-2 hover:bg-black/15 rounded-md transition-colors"
+          className={`p-2 rounded-md transition-colors ${
+            isActive("/home/analytics")
+              ? "bg-black/15 font-bold"
+              : "hover:bg-black/15"
+          }`}
           onClick={() => {
-            console.log("Navigating to recommendations");
             window.location.href = "/home/analytics";
           }}
         >

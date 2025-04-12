@@ -6,7 +6,6 @@ import {
   RadarChart,
   PolarGrid,
   PolarAngleAxis,
-  PolarRadiusAxis,
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
@@ -191,7 +190,6 @@ export default function FoodCategoryRadarChart() {
             <RadarChart cx="50%" cy="55%" outerRadius="70%" data={categoryData}>
               <PolarGrid />
               <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11 }} />
-              <PolarRadiusAxis />
               <Tooltip formatter={(value) => [`${value} items`, "Quantity"]} />
               <Radar
                 name="Food Items"
@@ -204,7 +202,7 @@ export default function FoodCategoryRadarChart() {
           </ResponsiveContainer>
         </div>
 
-        <div className="flex text-black items-center mt-4 px-12">
+        <div className="flex text-black items-center px-12">
           <Image
             src="/assets/analytics/insight.svg"
             alt="insight"
@@ -226,7 +224,7 @@ export default function FoodCategoryRadarChart() {
           </p>
           <div className="flex items-start gap-2">
             <Image
-              src={`/assets/${mostStoredItem.toLowerCase()}.png`}
+              src={`/assets/food/${mostStoredItem.toLowerCase()}.png`}
               alt={mostStoredItem}
               width={25}
               height={25}

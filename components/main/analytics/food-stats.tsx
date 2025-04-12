@@ -93,9 +93,9 @@ export default function WeeklyFoodStats() {
 
                 <div className="flex gap-2 w-full">
                   <Image
-                    src={`/assets/analytics/${category.name.toLowerCase()}-icon.svg`}
+                    src={`/assets/analytics/${category.name.toLowerCase()}-icon.png`}
                     alt={category.name}
-                    width={20}
+                    width={25}
                     height={20}
                   />
                   <p className="text-[9px] text-center">

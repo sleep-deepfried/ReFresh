@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ClientLayout from "./client-layout";
-import GeminiCuisineChatbot from "@/components/main/recommendations/gemini-cuisine-chatbot"; // Import the chatbot component
+import GeminiCuisineChatbot from "@/components/main/recommendations/gemini-cuisine-chatbot";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "ReFresh",
@@ -13,9 +14,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClientLayout>
-      {children}
-      <GeminiCuisineChatbot /> {/* Add the chatbot to the layout */}
-    </ClientLayout>
+    <SessionProvider>
+      <ClientLayout>
+        {children}
+        <GeminiCuisineChatbot /> {/* Add the chatbot to the layout */}
+      </ClientLayout>
+    </SessionProvider>
   );
 }

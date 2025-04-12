@@ -126,7 +126,6 @@ function Hero() {
 
       {isAddOpen && <Add onClose={() => setIsAddOpen(false)} />}
       {isRemoveOpen && <Remove onClose={() => setIsRemoveOpen(false)} />}
-      {/* <Expiring /> */}
     </div>
   );
 }
