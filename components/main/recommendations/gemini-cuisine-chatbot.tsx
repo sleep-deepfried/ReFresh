@@ -169,7 +169,7 @@ const GeminiCuisineChatbot = () => {
         <div className="fixed bottom-20 right-4 w-96 bg-white shadow-xl rounded-lg border">
           {/* Chat Header */}
           <div className="bg-[#048469] text-white p-3 rounded-t-lg flex justify-between items-center">
-            <h3 className="font-bold">Ninong Ry</h3>
+            <h3 className="font-bold">ReFresh</h3>
             <button onClick={() => setIsOpen(false)} className="text-white">
               ✕
             </button>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
 import { auth } from "@/auth";
@@ -42,7 +43,9 @@ export default async function Header() {
           </div>
         </div>
 
-        <IoMdNotificationsOutline className="text-4xl" />
+        <Link href="/home/notifications">
+          <IoMdNotificationsOutline className="text-4xl cursor-pointer hover:text-blue-500 transition" />
+        </Link>
       </div>
     </div>
   );
