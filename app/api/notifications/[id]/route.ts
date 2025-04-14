@@ -9,10 +9,13 @@ const pool = new Pool({
   max: 20,
 });
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
   let client;
   try {
-    const { id } = params;
+    const { id } = context.params;
     const { read } = await req.json();
 
     client = await pool.connect();
