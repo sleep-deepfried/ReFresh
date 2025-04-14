@@ -18,9 +18,12 @@ function RecipeDetailsModal() {
         >
           <IoIosArrowBack className="text-white" />
         </button>
+        <div className="z-10 absolute top-9 left-1/2 transform -translate-x-1/2 text-lg text-white font-bold shadow">
+          Recipe Details
+        </div>
 
         {/* Rest of your existing modal content, using selectedRecipe data */}
-        <div className="absolute top-36 px-5 space-y-5">
+        <div className="absolute top-52 px-5 space-y-5">
           <div className="bg-white py-4 px-6 rounded-2xl shadow-xl">
             <p className="font-semibold">{selectedRecipe.food_name}</p>
             <p className="text-xs">{selectedRecipe.description}</p>

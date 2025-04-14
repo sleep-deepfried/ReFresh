@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import Image from "next/image";
 
-const defaultColors = ["#FF610A", "#E97A35", "#E97A3580", "#FFD700", "#34A853"];
+const defaultColors = ["#FF610A", "#FF8040", "#FFA070", "#FFB090", "#FFC0A0"];
 
 export default function DonutChart() {
   const [data, setData] = useState<
@@ -54,7 +54,7 @@ export default function DonutChart() {
   ];
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center">
       <div className="relative w-60 h-60 flex justify-center items-center">
         {loading ? (
           <>
