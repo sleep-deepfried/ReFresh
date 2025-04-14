@@ -9,14 +9,12 @@ const pool = new Pool({
   max: 20,
 });
 
-// Remove the type annotation for context parameter
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+// In your app/api/notifications/[id]/route.ts file
+export async function PATCH(req: NextRequest) {
   let client;
   try {
-    const id = params.id;
+    // Extract ID from the URL path
+    const id = req.url.split('/').pop();
     const { read } = await req.json();
 
     client = await pool.connect();
