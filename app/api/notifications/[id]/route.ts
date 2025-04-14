@@ -9,13 +9,14 @@ const pool = new Pool({
   max: 20,
 });
 
+// Remove the type annotation for context parameter
 export async function PATCH(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   let client;
   try {
-    const { id } = context.params;
+    const id = params.id;
     const { read } = await req.json();
 
     client = await pool.connect();
