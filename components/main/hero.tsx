@@ -108,7 +108,12 @@ function Hero() {
               />
             </div>
           </button>
-          <button className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 relative">
+          <button
+            className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 relative"
+            onClick={(e) =>
+              createRipple(e, () => (window.location.href = "/home/analytics"))
+            }
+          >
             <p className="text-left">
               Health <br /> Tracker
             </p>
