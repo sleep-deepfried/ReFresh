@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
+// import { IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
 import Add from "./add";
 import Remove from "./remove";
 // import Expiring from "./expiring";
@@ -37,7 +37,7 @@ function Hero() {
   const [isRemoveOpen, setIsRemoveOpen] = useState(false);
   return (
     <div className="relative p-5 space-y-6 z-50">
-      <div className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] p-4 justify-between relative">
+      {/* <div className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] p-4 justify-between relative">
         <div className="space-y-3">
           <div className="">
             <p className="font-bold text-xl">
@@ -71,7 +71,7 @@ function Hero() {
             height={30}
           />
         </div>
-      </div>
+      </div> */}
       <div className="flex text-lg font-bold space-x-4">
         <button
           className="flex rounded-xl bg-[#ffffff] shadow-[3px_3px_3px#c5c9cb,-3px_-3px_3px#ffffff] py-2 pl-3 relative overflow-hidden"
