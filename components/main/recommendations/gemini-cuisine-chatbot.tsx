@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { resolveClientGeminiModelId } from "@/lib/gemini-model";
 import { IoMdSend } from "react-icons/io";
 import { LuBot } from "react-icons/lu";
 
@@ -94,7 +95,9 @@ const GeminiCuisineChatbot = () => {
         Emphasize authenticity first, then provide practical adaptation advice.
       `;
 
-      const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
+      const model = genAI.getGenerativeModel({
+        model: resolveClientGeminiModelId(),
+      });
       const result = await model.generateContent(prompt);
       return result.response.text();
     } catch (error) {

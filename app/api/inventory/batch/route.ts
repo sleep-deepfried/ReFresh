@@ -4,11 +4,20 @@ import { jsonError, jsonSuccess } from "@/lib/api-response";
 
 const pool = createPool();
 
+function normalizeDaysUntilBest(value: unknown): number {
+  if (value === undefined || value === null) return 7;
+  const n = Math.round(Number(value));
+  if (!Number.isFinite(n) || n < 0) return 7;
+  return Math.min(365, n);
+}
+
 interface BatchItemInput {
   name: string;
   quantity: number;
   food_type?: string;
   confidence?: number;
+  /** Days until best_before from scan estimate; insert only, default 7 */
+  days_until_best?: number;
 }
 
 export async function POST(req: NextRequest) {
@@ -44,6 +53,7 @@ export async function POST(req: NextRequest) {
         typeof raw.confidence === "number" && !Number.isNaN(raw.confidence)
           ? Math.min(1, Math.max(0, raw.confidence))
           : 0.5,
+      days_until_best: normalizeDaysUntilBest(raw.days_until_best),
     });
   }
 
@@ -74,11 +84,12 @@ export async function POST(req: NextRequest) {
         );
         updated += 1;
       } else {
+        const days = item.days_until_best ?? 7;
         await client.query(
           `INSERT INTO public.food_inventory 
            (food_name, food_type, entry_date, best_before, confidence, quantity)
-           VALUES ($1, $2, NOW(), NOW() + INTERVAL '7 days', $3, $4)`,
-          [item.name, item.food_type || "General", item.confidence, item.quantity]
+           VALUES ($1, $2, NOW(), NOW() + ($5 * INTERVAL '1 day'), $3, $4)`,
+          [item.name, item.food_type || "General", item.confidence, item.quantity, days]
         );
         inserted += 1;
       }

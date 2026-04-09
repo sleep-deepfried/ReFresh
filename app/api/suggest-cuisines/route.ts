@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Pool } from 'pg';
+import { resolveServerGeminiModelId } from "@/lib/gemini-model";
 
 const pool = new Pool({
     host: process.env.DATABASE_HOST,
@@ -86,7 +87,9 @@ export async function GET(req: NextRequest) {
         Respond ONLY with the JSON.
         `;
 
-        const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
+        const model = genAI.getGenerativeModel({
+          model: resolveServerGeminiModelId(),
+        });
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const recipeText = response.text().trim();
