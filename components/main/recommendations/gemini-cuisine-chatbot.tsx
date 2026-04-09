@@ -94,7 +94,7 @@ const GeminiCuisineChatbot = () => {
         Emphasize authenticity first, then provide practical adaptation advice.
       `;
 
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
       const result = await model.generateContent(prompt);
       return result.response.text();
     } catch (error) {
