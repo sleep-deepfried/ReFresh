@@ -7,7 +7,7 @@ export const maxDuration = 60;
 
 const MEALS = new Set(["breakfast", "lunch", "snack", "dinner"]);
 const MAX_ITEMS = 80;
-const MAX_SUGGESTIONS = 8;
+const MAX_SUGGESTIONS = 5;
 
 interface CookItemIn {
   food_name: string;
@@ -123,7 +123,7 @@ export async function POST(req: NextRequest) {
 Inventory (use only these; do not invent items):
 ${inventoryJson}
 
-Task: Suggest ${Math.min(6, MAX_SUGGESTIONS)} distinct, realistic ideas for ${meal}. Each idea must:
+Task: Suggest up to ${MAX_SUGGESTIONS} distinct, realistic ideas for ${meal} (never more than ${MAX_SUGGESTIONS}). Each idea must:
 - Use only ingredients that appear exactly as "food_name" in the inventory (or clearly derive from them, e.g. "Cherry Tomatoes" not "tomatoes" if only cherry tomatoes exist—prefer exact name matches).
 - Prefer items with sooner best_before if dates suggest urgency (optional judgment).
 - Be concise and actionable for a home cook.
