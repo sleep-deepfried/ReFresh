@@ -9,6 +9,12 @@ export function geminiModelId(): string {
   return m && m.length > 0 ? m : "gemini-3-flash-preview";
 }
 
+/** Cook `/api/cook/suggestions` — keep under Vercel Hobby ~10s; override with `GEMINI_COOK_MODEL`. */
+export function geminiCookModelId(): string {
+  const m = process.env.GEMINI_COOK_MODEL?.trim();
+  return m && m.length > 0 ? m : "gemini-2.5-flash-lite";
+}
+
 export type GeminiPart =
   | { text: string }
   | { inline_data: { mime_type: string; data: string } };
@@ -29,11 +35,13 @@ function toSdkParts(parts: GeminiPart[]) {
 
 export async function geminiGenerateContent(options: {
   apiKey: string;
+  model?: string;
   systemInstruction?: string;
   userParts: GeminiPart[];
   responseMimeType?: string;
 }): Promise<{ ok: boolean; status: number; text: string; rawError?: string }> {
-  const { apiKey, systemInstruction, userParts, responseMimeType } = options;
+  const { apiKey, model, systemInstruction, userParts, responseMimeType } = options;
+  const modelId = model?.trim() || geminiModelId();
   const ai = new GoogleGenAI({ apiKey });
 
   const config: {
@@ -46,7 +54,7 @@ export async function geminiGenerateContent(options: {
 
   try {
     const response = await ai.models.generateContent({
-      model: geminiModelId(),
+      model: modelId,
       contents: {
         role: "user",
         parts: toSdkParts(userParts),

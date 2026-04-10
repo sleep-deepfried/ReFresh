@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { geminiGenerateContent } from "@/lib/gemini";
+import { geminiCookModelId, geminiGenerateContent } from "@/lib/gemini";
 
-const COOK_SYSTEM = `You are a professional home cook. Using only the fridge inventory, meal period, and cuisine country/region the user provides, suggest exactly 3 practical meal ideas. Each idea must lean heavily on items they already have. When a country is named, favor that country's everyday home cooking; when they choose International, do not favor one region. Output JSON only with this shape:
+const MEALS = ["breakfast", "lunch", "snack", "dinner"] as const;
+
+const COOK_SYSTEM_SINGLE = `You are a professional home cook. Using only the fridge inventory, meal period, and cuisine country/region the user provides, suggest exactly 3 practical meal ideas. Each idea must lean heavily on items they already have. When a country is named, favor that country's everyday home cooking; when they choose International, do not favor one region. Output JSON only with this shape:
 {"suggestions":[{"title":"","subtitle":"","from_your_fridge":[]}]}
 Use short titles, one-line subtitles, and list ingredient names from their inventory that each dish uses (subset of what they have — use the exact food_name strings from the inventory list).`;
+
+const COOK_SYSTEM_ALL_MEALS = `You are a professional home cook. Using only the fridge inventory and cuisine country/region provided, for EACH of these meal periods — breakfast, lunch, snack, dinner — suggest exactly 3 practical meal ideas appropriate to that time of day. Each idea must lean heavily on items they already have. When a country is named, favor that country's everyday home cooking; when they choose International, do not favor one region.
+
+Output JSON only with this exact shape (all four keys required, each array length exactly 3):
+{"by_meal":{"breakfast":[{"title":"","subtitle":"","from_your_fridge":[]}],"lunch":[...],"snack":[...],"dinner":[...]}}
+
+Use short titles, one-line subtitles, and list ingredient names from their inventory (exact food_name strings from the list).`;
 
 type InvLine = {
   food_name: string;
@@ -12,17 +21,12 @@ type InvLine = {
   best_before: string | null;
 };
 
-function buildCookUserText(
+function buildCookUserTextSingle(
   meal: string,
   country: string,
   items: InvLine[]
 ): string {
-  const inv =
-    items.length === 0
-      ? "(empty — suggest very simple pantry-staple ideas and note they can add inventory)"
-      : items
-          .map((i) => `- ${i.food_name} (${i.food_type}) ×${i.quantity}`)
-          .join("\n");
+  const inv = formatInventoryBlock(items);
   return `Meal period: ${meal}
 Cuisine / region: ${country}
 
@@ -30,6 +34,23 @@ Fridge inventory:
 ${inv}
 
 Return JSON only with exactly 3 suggestions.`;
+}
+
+function buildCookUserTextAllMeals(country: string, items: InvLine[]): string {
+  const inv = formatInventoryBlock(items);
+  return `Cuisine / region: ${country}
+
+Fridge inventory:
+${inv}
+
+Return JSON only with by_meal containing breakfast, lunch, snack, dinner — each with exactly 3 suggestions.`;
+}
+
+function formatInventoryBlock(items: InvLine[]): string {
+  if (items.length === 0) {
+    return "(empty — suggest very simple pantry-staple ideas per meal period and note they can add inventory)";
+  }
+  return items.map((i) => `- ${i.food_name} (${i.food_type}) ×${i.quantity}`).join("\n");
 }
 
 function clampInt(n: unknown, min: number, max: number, fallback: number): number {
@@ -76,6 +97,43 @@ function normalizeSuggestion(
   };
 }
 
+function normalizeSuggestionList(
+  raw: unknown,
+  allowedNames: Set<string>,
+  maxCount: number
+): ReturnType<typeof normalizeSuggestion>[] {
+  if (!Array.isArray(raw)) return [];
+  const suggestions: ReturnType<typeof normalizeSuggestion>[] = [];
+  for (const row of raw) {
+    if (typeof row !== "object" || row === null) continue;
+    const norm = normalizeSuggestion(row as Record<string, unknown>, allowedNames);
+    if (norm) suggestions.push(norm);
+    if (suggestions.length >= maxCount) break;
+  }
+  return suggestions;
+}
+
+function parseByMeal(
+  parsed: unknown,
+  allowedNames: Set<string>
+): Partial<Record<(typeof MEALS)[number], ReturnType<typeof normalizeSuggestion>[]>> {
+  const out: Partial<Record<(typeof MEALS)[number], ReturnType<typeof normalizeSuggestion>[]>> = {};
+  if (typeof parsed !== "object" || parsed === null) return out;
+  const bm = (parsed as { by_meal?: unknown }).by_meal;
+  if (typeof bm !== "object" || bm === null) return out;
+  for (const m of MEALS) {
+    const list = normalizeSuggestionList(
+      (bm as Record<string, unknown>)[m],
+      allowedNames,
+      3
+    );
+    if (list.length > 0) {
+      out[m] = list;
+    }
+  }
+  return out;
+}
+
 export async function POST(req: NextRequest) {
   const key = process.env.GEMINI_API_KEY?.trim();
   if (!key) {
@@ -93,6 +151,7 @@ export async function POST(req: NextRequest) {
 
   let body: {
     meal?: string;
+    all_meals?: boolean;
     country?: string;
     items?: InvLine[];
   };
@@ -108,7 +167,11 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const meal = typeof body.meal === "string" ? body.meal.trim() : "";
+  const mealRaw = typeof body.meal === "string" ? body.meal.trim() : "";
+  const allMeals =
+    body.all_meals === true ||
+    mealRaw.toLowerCase() === "all" ||
+    (body.all_meals !== false && mealRaw === "");
   const country =
     typeof body.country === "string" ? body.country.trim() : "International";
   const items = Array.isArray(body.items) ? body.items : [];
@@ -135,15 +198,85 @@ export async function POST(req: NextRequest) {
     .slice(0, 200);
 
   const allowedNames = new Set(normalizedItems.map((i) => i.food_name));
-  const userText = buildCookUserText(
-    meal || "any",
+
+  if (allMeals) {
+    const userText = buildCookUserTextAllMeals(
+      country || "International",
+      normalizedItems
+    );
+    const gen = await geminiGenerateContent({
+      apiKey: key,
+      model: geminiCookModelId(),
+      systemInstruction: COOK_SYSTEM_ALL_MEALS,
+      userParts: [{ text: userText }],
+      responseMimeType: "application/json",
+    });
+
+    if (!gen.ok) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "upstream",
+            message: gen.rawError ?? "Model request failed",
+          },
+        },
+        { status: 502 }
+      );
+    }
+
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(gen.text) as unknown;
+    } catch {
+      return NextResponse.json(
+        {
+          success: false,
+          error: { code: "parse", message: "Model did not return valid JSON" },
+        },
+        { status: 502 }
+      );
+    }
+
+    const byMeal = parseByMeal(parsed, allowedNames);
+    const payload: Record<string, ReturnType<typeof normalizeSuggestion>[]> = {};
+    for (const m of MEALS) {
+      const list = byMeal[m];
+      if (list && list.length > 0) {
+        payload[m] = list;
+      }
+    }
+
+    if (Object.keys(payload).length === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "parse",
+            message: "Model returned no usable suggestions for any meal",
+          },
+        },
+        { status: 502 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: { by_meal: payload },
+    });
+  }
+
+  const meal = mealRaw || "any";
+  const userText = buildCookUserTextSingle(
+    meal,
     country || "International",
     normalizedItems
   );
 
   const gen = await geminiGenerateContent({
     apiKey: key,
-    systemInstruction: COOK_SYSTEM,
+    model: geminiCookModelId(),
+    systemInstruction: COOK_SYSTEM_SINGLE,
     userParts: [{ text: userText }],
     responseMimeType: "application/json",
   });
