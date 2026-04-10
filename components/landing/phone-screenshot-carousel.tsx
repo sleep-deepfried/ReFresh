@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { LandingScreenshot } from "./landing-screenshots";
@@ -81,33 +80,40 @@ export default function PhoneScreenshotCarousel({ slides }: PhoneScreenshotCarou
             else if (dx < -56) go(1);
           }}
         >
-          <AnimatePresence initial={false} mode="wait">
-            <motion.div
-              key={current.src}
-              className="absolute inset-0 flex flex-col px-1.5 pb-1.5 pt-4 sm:px-2 sm:pb-2 sm:pt-8"
-              initial={reduceMotion ? false : { opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, x: -24 }}
-              transition={{ duration: reduceMotion ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <p className="shrink-0 text-center font-sans text-lg font-bold uppercase tracking-[0.05em] text-ink sm:text-2xl">
-                {current.captionTop}
-              </p>
-              <div className="relative mt-1.5 min-h-0 flex-1 sm:mt-2">
-                <Image
-                  src={current.src}
-                  alt={current.alt}
-                  fill
-                  className="object-contain object-center"
-                  sizes="(max-width: 640px) 300px, 340px"
-                  priority={safeIndex === 0}
-                />
+          {/*
+            Stacked slides + CSS opacity: avoids AnimatePresence mode="wait" (2× animation) and
+            keeps Images mounted so production doesn’t pay decode/layout cost on every slide.
+          */}
+          {slides.map((slide, i) => {
+            const active = i === safeIndex;
+            return (
+              <div
+                key={slide.src}
+                className={`absolute inset-0 flex flex-col px-1.5 pb-1.5 pt-4 sm:px-2 sm:pb-2 sm:pt-8 ${
+                  active ? "z-10 opacity-100" : "pointer-events-none z-0 opacity-0"
+                } ${reduceMotion ? "" : "transition-opacity duration-200 ease-out"}`}
+                aria-hidden={!active}
+              >
+                <p className="shrink-0 text-center font-sans text-lg font-bold uppercase tracking-[0.05em] text-ink sm:text-2xl">
+                  {slide.captionTop}
+                </p>
+                <div className="relative mt-1.5 min-h-0 flex-1 sm:mt-2">
+                  <Image
+                    src={slide.src}
+                    alt={slide.alt}
+                    fill
+                    className="object-contain object-center"
+                    sizes="(max-width: 640px) 300px, 340px"
+                    priority={i <= 1}
+                    unoptimized
+                  />
+                </div>
+                <p className="mx-auto mt-2 max-w-[15rem] shrink-0 text-balance text-center text-xs font-medium leading-snug text-ink/70 sm:mt-2.5 sm:max-w-[17rem] sm:text-[0.8125rem] sm:leading-relaxed">
+                  {slide.captionBottom}
+                </p>
               </div>
-              <p className="mx-auto mt-2 max-w-[15rem] shrink-0 text-balance text-center text-xs font-medium leading-snug text-ink/70 sm:mt-2.5 sm:max-w-[17rem] sm:text-[0.8125rem] sm:leading-relaxed">
-                {current.captionBottom}
-              </p>
-            </motion.div>
-          </AnimatePresence>
+            );
+          })}
         </div>
 
         {count > 1 ? (
