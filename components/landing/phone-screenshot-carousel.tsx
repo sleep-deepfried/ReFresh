@@ -47,6 +47,9 @@ export default function PhoneScreenshotCarousel({ slides }: PhoneScreenshotCarou
 
   const current = slides[safeIndex];
 
+  const bezelButtonClass =
+    "z-10 hidden h-9 w-9 shrink-0 items-center justify-center self-center rounded-full border border-ink/12 bg-white/95 text-ink shadow-md backdrop-blur-sm transition hover:bg-white hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:inline-flex";
+
   return (
     <div
       className="relative flex min-h-0 flex-1 flex-col"
@@ -58,63 +61,64 @@ export default function PhoneScreenshotCarousel({ slides }: PhoneScreenshotCarou
       aria-roledescription="carousel"
       aria-label="App screenshots"
     >
-      <div
-        className="relative min-h-[11rem] flex-1 overflow-hidden rounded-xl border border-ink/10 bg-ink/[0.04] shadow-inner sm:min-h-[12.5rem]"
-        onTouchStart={(e) => {
-          touchStartX.current = e.touches[0].clientX;
-        }}
-        onTouchEnd={(e) => {
-          if (touchStartX.current == null) return;
-          const dx = e.changedTouches[0].clientX - touchStartX.current;
-          touchStartX.current = null;
-          if (dx > 56) go(-1);
-          else if (dx < -56) go(1);
-        }}
-      >
-        <AnimatePresence initial={false} mode="popLayout">
-          <motion.div
-            key={current.src + safeIndex}
-            className="absolute inset-0"
-            initial={reduceMotion ? false : { opacity: 0, x: 28 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, x: -28 }}
-            transition={{ duration: reduceMotion ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Image
-              src={current.src}
-              alt={current.alt}
-              fill
-              className="object-cover object-top"
-              sizes="(max-width: 640px) 240px, 280px"
-              priority={safeIndex === 0}
-            />
-          </motion.div>
-        </AnimatePresence>
+      <div className="flex min-h-0 min-w-0 flex-1 items-stretch gap-1.5 sm:gap-2">
+        {count > 1 ? (
+          <button type="button" onClick={() => go(-1)} className={bezelButtonClass} aria-label="Previous screenshot">
+            <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
+          </button>
+        ) : null}
+
+        <div
+          className="relative min-h-0 min-w-0 flex-1 overflow-hidden"
+          onTouchStart={(e) => {
+            touchStartX.current = e.touches[0].clientX;
+          }}
+          onTouchEnd={(e) => {
+            if (touchStartX.current == null) return;
+            const dx = e.changedTouches[0].clientX - touchStartX.current;
+            touchStartX.current = null;
+            if (dx > 56) go(-1);
+            else if (dx < -56) go(1);
+          }}
+        >
+          <AnimatePresence initial={false} mode="wait">
+            <motion.div
+              key={current.src}
+              className="absolute inset-0 flex flex-col px-1.5 pb-1.5 pt-4 sm:px-2 sm:pb-2 sm:pt-8"
+              initial={reduceMotion ? false : { opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, x: -24 }}
+              transition={{ duration: reduceMotion ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <p className="shrink-0 text-center font-sans text-lg font-bold uppercase tracking-[0.05em] text-ink sm:text-2xl">
+                {current.captionTop}
+              </p>
+              <div className="relative mt-1.5 min-h-0 flex-1 sm:mt-2">
+                <Image
+                  src={current.src}
+                  alt={current.alt}
+                  fill
+                  className="object-contain object-center"
+                  sizes="(max-width: 640px) 300px, 340px"
+                  priority={safeIndex === 0}
+                />
+              </div>
+              <p className="mx-auto mt-2 max-w-[15rem] shrink-0 text-balance text-center text-xs font-medium leading-snug text-ink/70 sm:mt-2.5 sm:max-w-[17rem] sm:text-[0.8125rem] sm:leading-relaxed">
+                {current.captionBottom}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         {count > 1 ? (
-          <>
-            <button
-              type="button"
-              onClick={() => go(-1)}
-              className="absolute left-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition hover:bg-black/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              aria-label="Previous screenshot"
-            >
-              <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
-            </button>
-            <button
-              type="button"
-              onClick={() => go(1)}
-              className="absolute right-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition hover:bg-black/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              aria-label="Next screenshot"
-            >
-              <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
-            </button>
-          </>
+          <button type="button" onClick={() => go(1)} className={bezelButtonClass} aria-label="Next screenshot">
+            <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
+          </button>
         ) : null}
       </div>
 
       {count > 1 ? (
-        <div className="mt-2 flex justify-center gap-1.5" role="tablist" aria-label="Choose screenshot">
+        <div className="mt-3 flex shrink-0 justify-center gap-2 pb-1.5 pt-0.5" role="tablist" aria-label="Choose screenshot">
           {slides.map((s, i) => (
             <button
               key={s.src}
@@ -132,7 +136,7 @@ export default function PhoneScreenshotCarousel({ slides }: PhoneScreenshotCarou
       ) : null}
 
       <p className="sr-only" aria-live="polite">
-        Slide {safeIndex + 1} of {count}: {current.alt}
+        Slide {safeIndex + 1} of {count}: {current.captionTop}. {current.alt}. {current.captionBottom}
       </p>
     </div>
   );

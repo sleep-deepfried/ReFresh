@@ -55,8 +55,8 @@ export default function StickyNav() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-3.5 sm:gap-4 sm:py-4 md:px-8">
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Section">
+      <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-3 sm:gap-4 sm:py-3.5 md:px-8">
+        <nav className="hidden min-h-9 items-center gap-8 md:flex" aria-label="Section">
           <a href="#features" className={linkClass}>
             Features
           </a>
@@ -80,8 +80,8 @@ export default function StickyNav() {
           />
         </Link>
 
-        <div className="flex items-center justify-end gap-3 md:gap-4">
-          <nav className="hidden items-center gap-6 md:flex" aria-label="Legal">
+        <div className="flex min-h-9 items-center justify-end gap-3 md:gap-4">
+          <nav className="hidden min-h-9 items-center gap-6 md:flex" aria-label="Legal">
             <Link href="/privacy" className={linkClass}>
               Privacy
             </Link>
