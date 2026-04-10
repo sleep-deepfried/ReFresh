@@ -18,6 +18,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Legal & support (public pages)
+
+Static routes for the mobile app Settings links:
+
+- [http://localhost:3000/privacy](http://localhost:3000/privacy) — Privacy policy
+- [http://localhost:3000/support](http://localhost:3000/support) — Support / help
+
+After deployment, set the same origin in the iOS target: `Refresh/Support/RefreshPublicWebBaseURL.swift` (`RefreshPublicWebBaseURL.string`, no trailing slash).
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
