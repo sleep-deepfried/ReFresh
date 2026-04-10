@@ -1,27 +1,24 @@
 "use client";
 
-import Image from "next/image";
+import { CalendarDays, Eye, ChefHat, type LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { fadeUp, viewportOnce } from "./motion-variants";
 
-const rows = [
+const rows: { title: string; body: string; icon: LucideIcon }[] = [
   {
     title: "Curated for real life",
     body: "Whether you batch cook on Sundays or grab ingredients daily, ReFresh adapts—no rigid meal plans, no noise.",
-    src: "/assets/daily-meal.svg",
-    alt: "Meal planning illustration",
+    icon: CalendarDays,
   },
   {
     title: "Confidence at a glance",
     body: "Know what is expiring, what you have in abundance, and what to use first—without opening every drawer.",
-    src: "/assets/ingredients.svg",
-    alt: "Ingredients illustration",
+    icon: Eye,
   },
   {
     title: "Taste, not trends",
     body: "Recommendations that respect how you actually eat—so every suggestion feels considered, not generic.",
-    src: "/assets/how-to-cook.svg",
-    alt: "Cooking inspiration illustration",
+    icon: ChefHat,
   },
 ];
 
@@ -55,8 +52,8 @@ export default function FeaturesZigzag() {
               viewport={viewportOnce}
               variants={fadeUp}
             >
-              <div className="relative aspect-[4/3] w-full max-w-xl overflow-hidden rounded-sm bg-canvas md:flex-1">
-                <Image src={row.src} alt={row.alt} fill className="object-contain p-8" />
+              <div className="flex aspect-[4/3] w-full max-w-xl items-center justify-center overflow-hidden rounded-sm bg-forest/5 md:flex-1">
+                <row.icon className="h-24 w-24 text-forest" strokeWidth={1} aria-hidden="true" />
               </div>
               <div className="md:flex-1 md:py-4">
                 <h3 className="font-serif text-2xl font-semibold text-ink md:text-3xl">{row.title}</h3>

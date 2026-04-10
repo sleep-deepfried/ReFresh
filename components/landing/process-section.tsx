@@ -1,30 +1,27 @@
 "use client";
 
-import Image from "next/image";
+import { Refrigerator, ClipboardList, HeartPulse, type LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { fadeUp, fadeUpStagger, viewportOnce } from "./motion-variants";
 
-const steps = [
+const steps: { n: string; title: string; body: string; icon: LucideIcon }[] = [
   {
     n: "01",
     title: "See your kitchen clearly",
     body: "Track what you have and when it shines—so nothing good goes forgotten.",
-    src: "/assets/fridge.svg",
-    alt: "Illustration of a refrigerator",
+    icon: Refrigerator,
   },
   {
     n: "02",
     title: "Get ideas that fit you",
     body: "Suggestions tuned to your tastes, schedule, and what is already on hand.",
-    src: "/assets/inventory.svg",
-    alt: "Inventory illustration",
+    icon: ClipboardList,
   },
   {
     n: "03",
     title: "Stay effortlessly on track",
     body: "Gentle nudges and a calm rhythm—like a concierge who never rushes you.",
-    src: "/assets/health.svg",
-    alt: "Wellness illustration",
+    icon: HeartPulse,
   },
 ];
 
@@ -55,8 +52,8 @@ export default function ProcessSection() {
           {steps.map((step) => (
             <motion.li key={step.n} variants={fadeUp} className="flex flex-col items-center text-center">
               <span className="font-serif text-sm text-copy-muted">{step.n}</span>
-              <div className="relative mt-6 h-40 w-full max-w-[200px]">
-                <Image src={step.src} alt={step.alt} fill className="object-contain" />
+              <div className="mt-6 flex h-40 w-full max-w-[200px] items-center justify-center rounded-sm bg-forest/5">
+                <step.icon className="h-16 w-16 text-forest" strokeWidth={1.25} aria-hidden="true" />
               </div>
               <h3 className="mt-8 font-serif text-xl font-semibold text-ink">{step.title}</h3>
               <p className="mt-3 max-w-xs text-sm leading-relaxed text-copy-muted">{step.body}</p>
