@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { geminiGenerateContent, geminiSafetyModelId } from "@/lib/gemini";
+import { parseModelJson } from "@/lib/parseModelJson";
 import { extractScanImageFromRequest } from "@/lib/scanMultipartImage";
 
 const SAFETY_SYSTEM = `You see one photo of food (or a single dish). Give a quick visual-only estimate—not medical or lab food safety.
@@ -88,7 +89,7 @@ export async function POST(req: NextRequest) {
 
   let parsed: Record<string, unknown>;
   try {
-    parsed = JSON.parse(gen.text) as Record<string, unknown>;
+    parsed = parseModelJson(gen.text) as Record<string, unknown>;
   } catch {
     return NextResponse.json(
       {

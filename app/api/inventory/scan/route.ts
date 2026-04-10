@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { geminiGenerateContent, geminiScanModelId } from "@/lib/gemini";
+import { parseModelJson } from "@/lib/parseModelJson";
 import { extractScanImageFromRequest } from "@/lib/scanMultipartImage";
 
 const SCAN_SYSTEM = `List distinct visible food items in the image. JSON only, no prose, no recipes, no meal or cuisine ideas:
@@ -108,7 +109,7 @@ export async function POST(req: NextRequest) {
 
   let parsed: { items?: unknown };
   try {
-    parsed = JSON.parse(gen.text) as { items?: unknown };
+    parsed = parseModelJson(gen.text) as { items?: unknown };
   } catch {
     return NextResponse.json(
       {

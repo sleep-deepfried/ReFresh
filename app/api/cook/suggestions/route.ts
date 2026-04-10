@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { geminiCookModelId, geminiGenerateContent } from "@/lib/gemini";
+import { parseModelJson } from "@/lib/parseModelJson";
 
 const MEALS = ["breakfast", "lunch", "snack", "dinner"] as const;
 /** Ideas per meal period (single-meal response and each `by_meal` array). */
@@ -212,6 +213,8 @@ export async function POST(req: NextRequest) {
       systemInstruction: COOK_SYSTEM_ALL_MEALS,
       userParts: [{ text: userText }],
       responseMimeType: "application/json",
+      temperature: 0.25,
+      maxOutputTokens: 8192,
     });
 
     if (!gen.ok) {
@@ -229,7 +232,7 @@ export async function POST(req: NextRequest) {
 
     let parsed: unknown;
     try {
-      parsed = JSON.parse(gen.text) as unknown;
+      parsed = parseModelJson(gen.text);
     } catch {
       return NextResponse.json(
         {
@@ -281,6 +284,8 @@ export async function POST(req: NextRequest) {
     systemInstruction: COOK_SYSTEM_SINGLE,
     userParts: [{ text: userText }],
     responseMimeType: "application/json",
+    temperature: 0.25,
+    maxOutputTokens: 4096,
   });
 
   if (!gen.ok) {
@@ -298,7 +303,7 @@ export async function POST(req: NextRequest) {
 
   let parsed: { suggestions?: unknown };
   try {
-    parsed = JSON.parse(gen.text) as { suggestions?: unknown };
+    parsed = parseModelJson(gen.text) as { suggestions?: unknown };
   } catch {
     return NextResponse.json(
       {

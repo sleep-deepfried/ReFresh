@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { geminiGenerateContent } from "@/lib/gemini";
+import { parseModelJson } from "@/lib/parseModelJson";
 
 const SYSTEM_INSTRUCTION = `You are ReFresh's fridge assistant. Help with food inventory, meal ideas from what they have, and simple fridge questions. Do not give medical or food-safety diagnoses. If the user wants to add or remove items, include structured actions.
 
@@ -93,6 +94,8 @@ export async function POST(req: NextRequest) {
     systemInstruction: SYSTEM_INSTRUCTION,
     userParts: [{ text: userText }],
     responseMimeType: "application/json",
+    temperature: 0.25,
+    maxOutputTokens: 4096,
   });
 
   if (!gen.ok) {
@@ -112,7 +115,7 @@ export async function POST(req: NextRequest) {
 
   let data: { message?: unknown; actions?: unknown };
   try {
-    data = JSON.parse(text) as { message?: unknown; actions?: unknown };
+    data = parseModelJson(text) as { message?: unknown; actions?: unknown };
   } catch {
     return NextResponse.json(
       {

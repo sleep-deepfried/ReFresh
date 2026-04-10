@@ -45,6 +45,41 @@ function toSdkParts(parts: GeminiPart[]) {
   });
 }
 
+/** When `response.text` is empty, concatenate non-thought text parts (JSON mode edge cases). */
+function extractModelText(response: {
+  text?: string | undefined;
+  candidates?: Array<{ content?: { parts?: Array<{ text?: string; thought?: boolean }> } }>;
+  promptFeedback?: { blockReason?: string; blockReasonMessage?: string };
+}): { text: string; blocked?: string } {
+  const fromGetter = typeof response.text === "string" ? response.text.trim() : "";
+  if (fromGetter.length > 0) {
+    return { text: fromGetter };
+  }
+
+  if (!response.candidates?.length) {
+    const fb = response.promptFeedback;
+    const blocked = fb?.blockReasonMessage ?? fb?.blockReason;
+    return {
+      text: "",
+      blocked: blocked ? String(blocked) : "Model returned no candidates",
+    };
+  }
+
+  const parts = response.candidates[0]?.content?.parts;
+  if (!Array.isArray(parts)) {
+    return { text: "" };
+  }
+
+  let acc = "";
+  for (const part of parts) {
+    if (part?.thought === true) continue;
+    if (typeof part?.text === "string") {
+      acc += part.text;
+    }
+  }
+  return { text: acc.trim() };
+}
+
 export async function geminiGenerateContent(options: {
   apiKey: string;
   model?: string;
@@ -87,7 +122,13 @@ export async function geminiGenerateContent(options: {
       config: Object.keys(config).length > 0 ? config : undefined,
     });
 
-    const text = response.text?.trim() ?? "";
+    const { text, blocked } = extractModelText(response);
+    if (blocked) {
+      return { ok: false, status: 502, text: "", rawError: blocked };
+    }
+    if (!text) {
+      return { ok: false, status: 502, text: "", rawError: "Model returned empty output" };
+    }
     return { ok: true, status: 200, text };
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Model request failed";
