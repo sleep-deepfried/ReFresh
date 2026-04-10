@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const GEMINI_MODEL = "gemini-2.0-flash";
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+import { geminiGenerateContent } from "@/lib/gemini";
 
 const SYSTEM_INSTRUCTION = `You are ReFresh's fridge assistant. Help with food inventory, meal ideas from what they have, and simple fridge questions. Do not give medical or food-safety diagnoses. If the user wants to add or remove items, include structured actions.
 
@@ -89,46 +87,28 @@ export async function POST(req: NextRequest) {
   const country = body.country ?? null;
 
   const userText = buildUserPrompt(messages, items, country);
-  const url = `${GEMINI_URL}?key=${encodeURIComponent(key)}`;
 
-  let geminiRes: Response;
-  try {
-    geminiRes = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-        contents: [{ role: "user", parts: [{ text: userText }] }],
-        generationConfig: {
-          responseMimeType: "application/json",
-        },
-      }),
-    });
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : "Upstream request failed";
+  const gen = await geminiGenerateContent({
+    apiKey: key,
+    systemInstruction: SYSTEM_INSTRUCTION,
+    userParts: [{ text: userText }],
+    responseMimeType: "application/json",
+  });
+
+  if (!gen.ok) {
     return NextResponse.json(
       {
         success: false,
-        error: { code: "upstream", message: msg },
+        error: {
+          code: "upstream",
+          message: gen.rawError ?? "Model request failed",
+        },
       },
       { status: 502 }
     );
   }
 
-  const raw = await geminiRes.json().catch(() => null);
-  if (!geminiRes.ok) {
-    const msg =
-      (raw as { error?: { message?: string } })?.error?.message ??
-      `Gemini HTTP ${geminiRes.status}`;
-    return NextResponse.json(
-      { success: false, error: { code: "upstream", message: msg } },
-      { status: 502 }
-    );
-  }
-
-  const text =
-    (raw as { candidates?: { content?: { parts?: { text?: string }[] } }[] })
-      ?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+  const text = gen.text;
 
   let data: { message?: unknown; actions?: unknown };
   try {
