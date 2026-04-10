@@ -14,21 +14,21 @@ export default function SupportPage() {
 
       <h2>Common topics</h2>
 
-      <h3>Scan &amp; photos</h3>
+      <h3>Scan & photos</h3>
       <p>
         Allow camera access when prompted. If analysis fails, check your network connection for
         features that use cloud processing, or try again with a well-lit, steady photo. On-device
         analysis requires a supported device and enabled models where applicable.
       </p>
 
-      <h3>Fridge &amp; inventory</h3>
+      <h3>Fridge & inventory</h3>
       <p>
         Items you save are stored on your phone unless you use sync features. Use search and category
         filters to find products quickly. Swipe or edit an item to update quantity or best-before
         dates.
       </p>
 
-      <h3>Cook &amp; meal ideas</h3>
+      <h3>Cook & meal ideas</h3>
       <p>
         Suggestions use what you’ve saved, your meal time, and your chosen cuisine region. Change the
         region from the Cook tab menu. Results may come from on-device AI, Apple Intelligence where
@@ -53,8 +53,8 @@ export default function SupportPage() {
         <a href="mailto:support@refresh.app" className="text-orange">
           support@refresh.app
         </a>{" "}
-        with your platform (iOS / web), app version, and a short description of the issue. Replace this
-        address with your real support inbox before launch.
+        with your platform (iOS / web), app version, and a short description of the issue. We aim to
+        respond within a few business days.
       </p>
 
       <h2>More resources</h2>

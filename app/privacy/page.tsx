@@ -99,8 +99,8 @@ export default function PrivacyPolicyPage() {
         For privacy questions, email{" "}
         <a href="mailto:privacy@refresh.app" className="text-orange">
           privacy@refresh.app
-        </a>{" "}
-        (replace with your production contact before launch).
+        </a>
+        .
       </p>
     </LegalPageLayout>
   );
