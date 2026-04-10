@@ -55,7 +55,7 @@ export default function StickyNav() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-3 sm:gap-4 sm:py-3.5 md:px-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3 sm:gap-4 sm:py-3.5 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center md:justify-normal md:gap-4 md:px-8">
         <nav className="hidden min-h-9 items-center gap-8 md:flex" aria-label="Section">
           <a href="#features" className={linkClass}>
             Features
@@ -67,7 +67,7 @@ export default function StickyNav() {
 
         <Link
           href="/"
-          className="justify-self-center font-serif text-xl font-semibold tracking-tight text-ink md:text-2xl"
+          className="font-serif text-xl font-semibold tracking-tight text-ink md:justify-self-center md:text-2xl"
         >
           <span className="sr-only">ReFresh home</span>
           <Image
@@ -80,8 +80,11 @@ export default function StickyNav() {
           />
         </Link>
 
-        <div className="flex min-h-9 items-center justify-end gap-3 md:gap-4">
-          <nav className="hidden min-h-9 items-center gap-6 md:flex" aria-label="Legal">
+        <div className="flex min-h-10 w-full min-w-0 items-center justify-end gap-2 sm:gap-3 md:min-h-9 md:justify-self-end md:gap-3 lg:gap-4">
+          <nav
+            className="hidden min-h-9 min-w-0 flex-wrap items-center justify-end gap-x-4 gap-y-1 md:flex md:gap-x-4 lg:gap-x-6"
+            aria-label="Legal"
+          >
             <Link href="/privacy" className={linkClass}>
               Privacy
             </Link>
@@ -94,15 +97,16 @@ export default function StickyNav() {
           </nav>
           <a
             href="#download"
-            className="hidden rounded-app-md bg-brand px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand md:inline-flex"
+            className="hidden h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-app-md bg-brand px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand md:inline-flex lg:px-5"
           >
             Get the app
           </a>
           <button
             type="button"
-            className="inline-flex rounded-app-md p-2 text-ink md:hidden"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-app-md text-ink md:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen((o) => !o)}
           >
             {menuOpen ? <X strokeWidth={1.25} className="h-6 w-6" /> : <Menu strokeWidth={1.25} className="h-6 w-6" />}
