@@ -1,11 +1,8 @@
 /**
  * App store preview images for the hero phone mockup.
  *
- * 1. Add files under: ReFresh-web/public/screenshots/
- *    (e.g. scan.webp, fridge.webp — PNG/JPG/WebP are fine.)
- * 2. List each file below with a short alt string for accessibility.
- *
- * While this array is empty, the phone shows the large logo + tagline only.
+ * Files live under `public/screenshots/` (PNG/JPG/WebP). Edit `alt` if the
+ * on-disk order does not match these labels.
  */
 export type LandingScreenshot = {
   src: string;
@@ -13,7 +10,10 @@ export type LandingScreenshot = {
 };
 
 export const LANDING_SCREENSHOTS: LandingScreenshot[] = [
-  // Example (uncomment when files exist):
-  // { src: "/screenshots/01-scan.webp", alt: "ReFresh Scan screen" },
-  // { src: "/screenshots/02-fridge.webp", alt: "ReFresh Fridge inventory" },
+  { src: "/screenshots/1.png", alt: "ReFresh home — expiring soon and quick actions" },
+  { src: "/screenshots/2.png", alt: "ReFresh fridge inventory" },
+  { src: "/screenshots/3.png", alt: "ReFresh scan — capture fridge or pantry" },
+  { src: "/screenshots/4.png", alt: "ReFresh Cook — meal ideas from your inventory" },
+  { src: "/screenshots/5.png", alt: "ReFresh analytics" },
+  { src: "/screenshots/6.png", alt: "ReFresh fridge assistant chat" },
 ];

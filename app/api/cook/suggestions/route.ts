@@ -2,14 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { geminiCookModelId, geminiGenerateContent } from "@/lib/gemini";
 
 const MEALS = ["breakfast", "lunch", "snack", "dinner"] as const;
+/** Ideas per meal period (single-meal response and each `by_meal` array). */
+const SUGGESTIONS_PER_CATEGORY = 3;
 
-const COOK_SYSTEM_SINGLE = `You are a professional home cook. Using only the fridge inventory, meal period, and cuisine country/region the user provides, suggest exactly 3 practical meal ideas. Each idea must lean heavily on items they already have. When a country is named, favor that country's everyday home cooking; when they choose International, do not favor one region. Output JSON only with this shape:
+const COOK_SYSTEM_SINGLE = `You are a professional home cook. Using only the fridge inventory, meal period, and cuisine country/region the user provides, suggest exactly ${SUGGESTIONS_PER_CATEGORY} practical meal ideas. Each idea must lean heavily on items they already have. When a country is named, favor that country's everyday home cooking; when they choose International, do not favor one region. Output JSON only with this shape:
 {"suggestions":[{"title":"","subtitle":"","from_your_fridge":[]}]}
 Use short titles, one-line subtitles, and list ingredient names from their inventory that each dish uses (subset of what they have — use the exact food_name strings from the inventory list).`;
 
-const COOK_SYSTEM_ALL_MEALS = `You are a professional home cook. Using only the fridge inventory and cuisine country/region provided, for EACH of these meal periods — breakfast, lunch, snack, dinner — suggest exactly 3 practical meal ideas appropriate to that time of day. Each idea must lean heavily on items they already have. When a country is named, favor that country's everyday home cooking; when they choose International, do not favor one region.
+const COOK_SYSTEM_ALL_MEALS = `You are a professional home cook. Using only the fridge inventory and cuisine country/region provided, for EACH of these meal periods — breakfast, lunch, snack, dinner — suggest exactly ${SUGGESTIONS_PER_CATEGORY} practical meal ideas appropriate to that time of day. Each idea must lean heavily on items they already have. When a country is named, favor that country's everyday home cooking; when they choose International, do not favor one region.
 
-Output JSON only with this exact shape (all four keys required, each array length exactly 3):
+Output JSON only with this exact shape (all four keys required, each array length exactly ${SUGGESTIONS_PER_CATEGORY}):
 {"by_meal":{"breakfast":[{"title":"","subtitle":"","from_your_fridge":[]}],"lunch":[...],"snack":[...],"dinner":[...]}}
 
 Use short titles, one-line subtitles, and list ingredient names from their inventory (exact food_name strings from the list).`;
@@ -33,7 +35,7 @@ Cuisine / region: ${country}
 Fridge inventory:
 ${inv}
 
-Return JSON only with exactly 3 suggestions.`;
+Return JSON only with exactly ${SUGGESTIONS_PER_CATEGORY} suggestions.`;
 }
 
 function buildCookUserTextAllMeals(country: string, items: InvLine[]): string {
@@ -43,7 +45,7 @@ function buildCookUserTextAllMeals(country: string, items: InvLine[]): string {
 Fridge inventory:
 ${inv}
 
-Return JSON only with by_meal containing breakfast, lunch, snack, dinner — each with exactly 3 suggestions.`;
+Return JSON only with by_meal containing breakfast, lunch, snack, dinner — each with exactly ${SUGGESTIONS_PER_CATEGORY} suggestions.`;
 }
 
 function formatInventoryBlock(items: InvLine[]): string {
@@ -125,7 +127,7 @@ function parseByMeal(
     const list = normalizeSuggestionList(
       (bm as Record<string, unknown>)[m],
       allowedNames,
-      3
+      SUGGESTIONS_PER_CATEGORY
     );
     if (list.length > 0) {
       out[m] = list;
@@ -313,7 +315,7 @@ export async function POST(req: NextRequest) {
     if (typeof row !== "object" || row === null) continue;
     const norm = normalizeSuggestion(row as Record<string, unknown>, allowedNames);
     if (norm) suggestions.push(norm);
-    if (suggestions.length >= 3) break;
+    if (suggestions.length >= SUGGESTIONS_PER_CATEGORY) break;
   }
 
   if (suggestions.length === 0) {
