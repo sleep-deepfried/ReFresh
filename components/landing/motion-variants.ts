@@ -16,7 +16,12 @@ export const fadeUpStagger: Variants = {
   },
 };
 
+/**
+ * Use "some" so tall blocks (hero) still trigger when only the top is in view.
+ * A numeric amount (e.g. 0.15) can keep opacity:0 forever if the element is
+ * larger than the viewport and never meets the visibility ratio.
+ */
 export const viewportOnce = {
   once: true as const,
-  margin: "-80px" as const,
+  amount: "some" as const,
 };

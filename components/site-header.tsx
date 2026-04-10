@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function SiteHeader() {
   const linkClass =
-    "text-sm font-medium text-ink/80 transition hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+    "text-sm font-medium text-ink/80 transition hover:text-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 
   return (
     <header className="border-b border-ink/10 bg-canvas/90 backdrop-blur-sm">

@@ -1,11 +1,11 @@
 import Link from "next/link";
 
 export default function SiteFooter() {
-  const linkClass = "text-sm font-medium text-accent hover:underline underline-offset-4";
+  const linkClass = "text-sm font-medium text-brand hover:underline underline-offset-4";
 
   return (
-    <footer className="border-t border-ink/10 bg-canvas py-16 text-center">
-      <nav className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3" aria-label="Footer">
+    <footer className="border-t border-ink/10 bg-canvas px-5 py-12 text-center sm:py-16">
+      <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:gap-x-8" aria-label="Footer">
         <Link href="/privacy" className={linkClass}>
           Privacy
         </Link>

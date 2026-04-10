@@ -8,9 +8,9 @@
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  /* Matches Refresh iOS RefreshTokens.accent */
+  /* Matches Refresh iOS RefreshTokens.accent — use `brand` in UI; `accent` is reserved for shadcn (muted surface). */
   --color-orange: #ff610a;
-  --color-accent: #ff610a;
+  --color-brand: #ff610a;
   --color-mint: #2dd4bf;
   --color-surface-muted: #ebebeb;
   --color-canvas: #f9f8f6;
@@ -215,11 +215,15 @@
     radial-gradient(80% 50% at 100% 50%, rgb(255 97 10 / 0.06), transparent 45%), var(--color-canvas);
 }
 
-/* Headline accent word (mint → orange) */
+/* Headline accent word (mint → orange); extra padding avoids background-clip cropping descenders */
 .text-gradient-brand {
-  background: linear-gradient(135deg, var(--color-mint) 0%, var(--color-accent) 100%);
+  display: inline-block;
+  padding-bottom: 0.12em;
+  background: linear-gradient(135deg, var(--color-mint) 0%, var(--color-brand) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 

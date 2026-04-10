@@ -25,7 +25,7 @@ export default function StickyNav() {
   }, [menuOpen]);
 
   const linkClass =
-    "text-sm font-medium text-ink/80 transition hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+    "text-sm font-medium text-ink/80 transition hover:text-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 
   const navLinks = (
     <>
@@ -49,13 +49,13 @@ export default function StickyNav() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,border-color] duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top,0px)] transition-[background-color,box-shadow,border-color] duration-300 ${
         scrolled
           ? "border-b border-ink/5 bg-canvas/85 shadow-[var(--shadow-nav)] backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-4 md:px-8">
+      <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-3.5 sm:gap-4 sm:py-4 md:px-8">
         <nav className="hidden items-center gap-8 md:flex" aria-label="Section">
           <a href="#features" className={linkClass}>
             Features
@@ -94,7 +94,7 @@ export default function StickyNav() {
           </nav>
           <a
             href="#download"
-            className="hidden rounded-app-md bg-accent px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-accent/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
+            className="hidden rounded-app-md bg-brand px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand md:inline-flex"
           >
             Get the app
           </a>
@@ -113,13 +113,13 @@ export default function StickyNav() {
       {menuOpen ? (
         <div
           id="mobile-nav"
-          className="border-t border-ink/5 bg-canvas/95 px-4 py-6 backdrop-blur-md md:hidden"
+          className="max-h-[min(70vh,calc(100dvh-4rem))] overflow-y-auto border-t border-ink/5 bg-canvas/95 px-5 py-6 backdrop-blur-md md:hidden"
         >
           <div className="flex flex-col gap-4">{navLinks}</div>
           <a
             href="#download"
             onClick={() => setMenuOpen(false)}
-            className="mt-6 flex w-full justify-center rounded-app-md bg-accent py-3 text-sm font-semibold text-white"
+            className="mt-6 flex w-full justify-center rounded-app-md bg-brand py-3 text-sm font-semibold text-white shadow-md"
           >
             Get the app
           </a>
