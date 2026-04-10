@@ -15,6 +15,12 @@ export function geminiCookModelId(): string {
   return m && m.length > 0 ? m : "gemini-2.5-flash-lite";
 }
 
+/** `/api/inventory/scan` (vision + JSON) — default fast lite model; override with `GEMINI_SCAN_MODEL`. */
+export function geminiScanModelId(): string {
+  const m = process.env.GEMINI_SCAN_MODEL?.trim();
+  return m && m.length > 0 ? m : "gemini-2.5-flash-lite";
+}
+
 export type GeminiPart =
   | { text: string }
   | { inline_data: { mime_type: string; data: string } };
@@ -39,18 +45,31 @@ export async function geminiGenerateContent(options: {
   systemInstruction?: string;
   userParts: GeminiPart[];
   responseMimeType?: string;
+  /** Cap response length (often improves latency for structured JSON). */
+  maxOutputTokens?: number;
+  /** Lower = faster, more deterministic JSON. */
+  temperature?: number;
 }): Promise<{ ok: boolean; status: number; text: string; rawError?: string }> {
-  const { apiKey, model, systemInstruction, userParts, responseMimeType } = options;
+  const { apiKey, model, systemInstruction, userParts, responseMimeType, maxOutputTokens, temperature } =
+    options;
   const modelId = model?.trim() || geminiModelId();
   const ai = new GoogleGenAI({ apiKey });
 
   const config: {
     systemInstruction?: string;
     responseMimeType?: string;
+    maxOutputTokens?: number;
+    temperature?: number;
   } = {};
   const sys = systemInstruction?.trim();
   if (sys) config.systemInstruction = sys;
   if (responseMimeType) config.responseMimeType = responseMimeType;
+  if (typeof maxOutputTokens === "number" && Number.isFinite(maxOutputTokens)) {
+    config.maxOutputTokens = Math.max(256, Math.floor(maxOutputTokens));
+  }
+  if (typeof temperature === "number" && Number.isFinite(temperature)) {
+    config.temperature = Math.min(2, Math.max(0, temperature));
+  }
 
   try {
     const response = await ai.models.generateContent({

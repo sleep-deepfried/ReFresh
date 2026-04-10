@@ -1,18 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { geminiGenerateContent } from "@/lib/gemini";
+import { geminiGenerateContent, geminiScanModelId } from "@/lib/gemini";
 
-const SCAN_SYSTEM = `You are a pantry vision assistant. Identify distinct food items visible in this refrigerator or pantry photo.
-Output JSON only with this exact shape:
-{"items":[{"name":"","quantity":1,"confidence":0.85,"food_type":"Other","freshness_status":"fresh","days_until_best":7}]}
-
-Rules:
-- name: short human-readable label (English).
-- quantity: positive integer; use 1 for uncountable bulk.
-- confidence: number from 0 to 1.
-- food_type: one of Produce, Dairy, Meat, Poultry, Seafood, Pantry, Frozen, Beverage, Other (or close variants).
-- freshness_status: exactly one of fresh, stale, spoiled (lowercase).
-- days_until_best: integer 0-365; estimate from visual cues, use 7 if unsure.
-If no food is clearly visible, return {"items":[]}.`;
+const SCAN_SYSTEM = `Pantry/fridge photo → list distinct food items as JSON only:
+{"items":[{"name":"English short label","quantity":1,"confidence":0.9,"food_type":"Other","freshness_status":"fresh","days_until_best":7}]}
+food_type: Produce|Dairy|Meat|Poultry|Seafood|Pantry|Frozen|Beverage|Other. freshness_status: fresh|stale|spoiled. quantity 1-99. confidence 0-1. days_until_best 0-365 (7 if unsure). Max 25 items. No food visible: {"items":[]}.`;
 
 const FRESHNESS = new Set(["fresh", "stale", "spoiled"]);
 
@@ -139,6 +130,7 @@ export async function POST(req: NextRequest) {
 
   const gen = await geminiGenerateContent({
     apiKey: key,
+    model: geminiScanModelId(),
     systemInstruction: SCAN_SYSTEM,
     userParts: [
       {
@@ -147,11 +139,11 @@ export async function POST(req: NextRequest) {
           data: base64,
         },
       },
-      {
-        text: "Analyze this refrigerator or food photo and follow the system instructions exactly.",
-      },
+      { text: "JSON only." },
     ],
     responseMimeType: "application/json",
+    temperature: 0.2,
+    maxOutputTokens: 4096,
   });
 
   if (!gen.ok) {
@@ -186,7 +178,7 @@ export async function POST(req: NextRequest) {
     if (typeof row !== "object" || row === null) continue;
     const norm = normalizeItem(row as Record<string, unknown>);
     if (norm) items.push(norm);
-    if (items.length >= 40) break;
+    if (items.length >= 25) break;
   }
 
   return NextResponse.json({
