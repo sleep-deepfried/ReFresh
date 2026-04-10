@@ -3,11 +3,54 @@ import { geminiGenerateContent, geminiScanModelId } from "@/lib/gemini";
 import { parseModelJson } from "@/lib/parseModelJson";
 import { extractScanImageFromRequest } from "@/lib/scanMultipartImage";
 
-const SCAN_SYSTEM = `List distinct visible food items in the image. JSON only, no prose, no recipes, no meal or cuisine ideas:
-{"items":[{"name":"short English label","quantity":1,"confidence":0.9,"food_type":"Other","freshness_status":"fresh","days_until_best":7}]}
-food_type: Produce|Dairy|Meat|Poultry|Seafood|Pantry|Frozen|Beverage|Other. freshness_status: fresh|stale|spoiled. quantity 1-99. confidence 0-1. days_until_best 0-365 (use 7 if unsure). Max 25 items. If no food: {"items":[]}.`;
+const SCAN_SYSTEM = `List distinct visible food or drink items in the image. JSON only, no prose, no recipes, no meal or cuisine ideas.
+Shape:
+{"items":[...],"scene":"food"|"no_food"|"unclear","notice":"optional short English for the user"}
+- items: same as below. Max 25.
+- scene: "food" if you listed real edible items. "no_food" if the photo is clearly not food (objects, pets, people without food, screens, outdoor scenes, random items). "unclear" if the image is too dark/blurry/empty shelf and you cannot list items.
+- notice: required when items is empty — briefly say why (e.g. "This looks like a keyboard, not food." or "No groceries visible — try a closer fridge shot.").
+Item fields: {"name":"short English label","quantity":1,"confidence":0.9,"food_type":"Other","freshness_status":"fresh","days_until_best":7}
+food_type: Produce|Dairy|Meat|Poultry|Seafood|Pantry|Frozen|Beverage|Other. freshness_status: fresh|stale|spoiled. quantity 1-99. confidence 0-1. days_until_best 0-365 (use 7 if unsure). If no edible items to list, use items:[].`;
 
 const FRESHNESS = new Set(["fresh", "stale", "spoiled"]);
+
+type ScanScene = "food" | "no_food" | "unclear";
+
+function normalizeScene(raw: unknown): ScanScene {
+  if (typeof raw !== "string") return "unclear";
+  const s = raw.trim().toLowerCase().replace(/[\s-]+/g, "_");
+  if (s === "no_food" || s === "not_food" || s === "non_food") return "no_food";
+  if (s === "food" || s === "food_found" || s === "has_food") return "food";
+  return "unclear";
+}
+
+function trimNotice(raw: unknown): string {
+  if (typeof raw !== "string") return "";
+  return raw.trim().slice(0, 500);
+}
+
+function buildInventoryWarning(
+  itemCount: number,
+  scene: ScanScene,
+  notice: string
+): { code: string; message: string } | undefined {
+  if (itemCount > 0) return undefined;
+  const n = notice.trim();
+  if (scene === "no_food") {
+    return {
+      code: "not_food",
+      message:
+        n ||
+        "This does not look like food. Try a dish, groceries, or the inside of your fridge or pantry.",
+    };
+  }
+  return {
+    code: "no_items",
+    message:
+      n ||
+      "No food was detected. Use better light, move closer, or photograph shelves or containers with food.",
+  };
+}
 
 function normalizeItem(raw: Record<string, unknown>): {
   name: string;
@@ -107,9 +150,9 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let parsed: { items?: unknown };
+  let parsed: { items?: unknown; scene?: unknown; notice?: unknown };
   try {
-    parsed = parseModelJson(gen.text) as { items?: unknown };
+    parsed = parseModelJson(gen.text) as { items?: unknown; scene?: unknown; notice?: unknown };
   } catch {
     return NextResponse.json(
       {
@@ -129,11 +172,20 @@ export async function POST(req: NextRequest) {
     if (items.length >= 25) break;
   }
 
+  let scene = normalizeScene(parsed.scene);
+  if (items.length > 0) {
+    scene = "food";
+  }
+  const notice = trimNotice(parsed.notice);
+  const warning = buildInventoryWarning(items.length, scene, notice);
+
   return NextResponse.json({
     success: true,
     data: {
       item_count: items.length,
+      scene,
       items,
+      ...(warning ? { warning } : {}),
     },
   });
 }
