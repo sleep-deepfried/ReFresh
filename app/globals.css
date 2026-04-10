@@ -9,6 +9,13 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-orange: #ff610a;
+  /* Stitch landing palette */
+  --color-canvas: #f9f8f6;
+  --color-ink: #2d2d2d;
+  --color-forest: #1b4332;
+  --color-copy-muted: #6b6b6b;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
 }
 
 /*
@@ -27,11 +34,6 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
   }
-}
-
-body {
-  color: var(--background);
-  background: var(--foreground);
 }
 
 @keyframes fadeIn {
@@ -73,6 +75,9 @@ body {
 
 :root {
   --radius: 0.625rem;
+  /* Align semantic tokens with landing canvas + ink */
+  --background: #f9f8f6;
+  --foreground: #2d2d2d;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -102,8 +107,6 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
 }
 
 /*

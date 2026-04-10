@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <LegalPageLayout title="Privacy Policy">
-      <p className="text-sm text-neutral-500">Last updated: April 10, 2026</p>
+      <p className="text-sm text-copy-muted">Last updated: April 10, 2026</p>
 
       <h2>Who we are</h2>
       <p>
@@ -97,7 +97,7 @@ export default function PrivacyPolicyPage() {
       <h2>Contact</h2>
       <p>
         For privacy questions, email{" "}
-        <a href="mailto:privacy@refresh.app" className="text-orange">
+        <a href="mailto:privacy@refresh.app" className="text-forest">
           privacy@refresh.app
         </a>
         .

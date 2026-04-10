@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function SupportPage() {
   return (
     <LegalPageLayout title="Support">
-      <p className="text-sm text-neutral-500">We’re here to help you get the most from ReFresh.</p>
+      <p className="text-sm text-copy-muted">We’re here to help you get the most from ReFresh.</p>
 
       <h2>Common topics</h2>
 
@@ -50,7 +50,7 @@ export default function SupportPage() {
       <h2>Contact us</h2>
       <p>
         Email{" "}
-        <a href="mailto:support@refresh.app" className="text-orange">
+        <a href="mailto:support@refresh.app" className="text-forest">
           support@refresh.app
         </a>{" "}
         with your platform (iOS / web), app version, and a short description of the issue. We aim to
@@ -60,13 +60,13 @@ export default function SupportPage() {
       <h2>More resources</h2>
       <ul>
         <li>
-          <Link href="/privacy" className="text-orange underline-offset-2 hover:underline">
+          <Link href="/privacy" className="text-forest underline-offset-2 hover:underline">
             Privacy policy
           </Link>{" "}
           — how we handle data.
         </li>
         <li>
-          <Link href="/" className="text-orange underline-offset-2 hover:underline">
+          <Link href="/" className="text-forest underline-offset-2 hover:underline">
             Home
           </Link>{" "}
           — return to the ReFresh web app.

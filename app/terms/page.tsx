@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function TermsOfServicePage() {
   return (
     <LegalPageLayout title="Terms of Service">
-      <p className="text-sm text-neutral-500">Last updated: April 10, 2026</p>
+      <p className="text-sm text-copy-muted">Last updated: April 10, 2026</p>
 
       <h2>Agreement</h2>
       <p>
@@ -54,7 +54,7 @@ export default function TermsOfServicePage() {
       <h2>Contact</h2>
       <p>
         Questions about these terms:{" "}
-        <a href="mailto:support@refresh.app" className="text-orange">
+        <a href="mailto:support@refresh.app" className="text-forest">
           support@refresh.app
         </a>
         .
