@@ -5,11 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
-type StickyNavProps = {
-  onGetStarted: () => void;
-};
-
-export default function StickyNav({ onGetStarted }: StickyNavProps) {
+export default function StickyNav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -29,23 +25,23 @@ export default function StickyNav({ onGetStarted }: StickyNavProps) {
   }, [menuOpen]);
 
   const linkClass =
-    "text-sm font-medium text-ink/80 transition hover:text-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest";
+    "text-sm font-medium text-ink/80 transition hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
   const navLinks = (
     <>
-      <a href="#process" className={linkClass}>
-        Process
-      </a>
-      <a href="#features" className={linkClass}>
+      <a href="#features" className={linkClass} onClick={() => setMenuOpen(false)}>
         Features
       </a>
-      <Link href="/privacy" className={linkClass}>
+      <a href="#download" className={linkClass} onClick={() => setMenuOpen(false)}>
+        Download
+      </a>
+      <Link href="/privacy" className={linkClass} onClick={() => setMenuOpen(false)}>
         Privacy
       </Link>
-      <Link href="/terms" className={linkClass}>
+      <Link href="/terms" className={linkClass} onClick={() => setMenuOpen(false)}>
         Terms
       </Link>
-      <Link href="/support" className={linkClass}>
+      <Link href="/support" className={linkClass} onClick={() => setMenuOpen(false)}>
         Support
       </Link>
     </>
@@ -55,17 +51,17 @@ export default function StickyNav({ onGetStarted }: StickyNavProps) {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,border-color] duration-300 ${
         scrolled
-          ? "border-b border-ink/5 bg-canvas/80 shadow-sm backdrop-blur-md"
+          ? "border-b border-ink/5 bg-canvas/85 shadow-[var(--shadow-nav)] backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
       }`}
     >
       <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-4 md:px-8">
         <nav className="hidden items-center gap-8 md:flex" aria-label="Section">
-          <a href="#process" className={linkClass}>
-            Process
-          </a>
           <a href="#features" className={linkClass}>
             Features
+          </a>
+          <a href="#download" className={linkClass}>
+            Download
           </a>
         </nav>
 
@@ -96,16 +92,15 @@ export default function StickyNav({ onGetStarted }: StickyNavProps) {
               Support
             </Link>
           </nav>
-          <button
-            type="button"
-            onClick={onGetStarted}
-            className="hidden rounded-sm bg-forest px-4 py-2.5 text-sm font-medium text-canvas transition hover:bg-forest/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest md:inline-flex"
+          <a
+            href="#download"
+            className="hidden rounded-app-md bg-accent px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-accent/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
           >
-            Get Started
-          </button>
+            Get the app
+          </a>
           <button
             type="button"
-            className="inline-flex rounded-sm p-2 text-ink md:hidden"
+            className="inline-flex rounded-app-md p-2 text-ink md:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
             onClick={() => setMenuOpen((o) => !o)}
@@ -121,16 +116,13 @@ export default function StickyNav({ onGetStarted }: StickyNavProps) {
           className="border-t border-ink/5 bg-canvas/95 px-4 py-6 backdrop-blur-md md:hidden"
         >
           <div className="flex flex-col gap-4">{navLinks}</div>
-          <button
-            type="button"
-            onClick={() => {
-              setMenuOpen(false);
-              onGetStarted();
-            }}
-            className="mt-6 w-full rounded-sm bg-forest py-3 text-sm font-medium text-canvas"
+          <a
+            href="#download"
+            onClick={() => setMenuOpen(false)}
+            className="mt-6 flex w-full justify-center rounded-app-md bg-accent py-3 text-sm font-semibold text-white"
           >
-            Get Started
-          </button>
+            Get the app
+          </a>
         </div>
       ) : null}
     </header>

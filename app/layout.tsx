@@ -17,7 +17,8 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "ReFresh",
-  description: "Your guide to fresh, healthy choices. Download the ReFresh mobile app.",
+  description:
+    "Track food at home, scan your fridge, get meal ideas from your inventory, and see simple waste insights—on your device. Download ReFresh for iOS or Android.",
 };
 
 export default function RootLayout({

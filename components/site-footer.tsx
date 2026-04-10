@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export default function SiteFooter() {
-  const linkClass = "text-sm font-medium text-forest hover:underline underline-offset-4";
+  const linkClass = "text-sm font-medium text-accent hover:underline underline-offset-4";
 
   return (
     <footer className="border-t border-ink/10 bg-canvas py-16 text-center">
