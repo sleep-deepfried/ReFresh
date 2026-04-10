@@ -21,6 +21,12 @@ export function geminiScanModelId(): string {
   return m && m.length > 0 ? m : "gemini-2.5-flash-lite";
 }
 
+/** `/api/inventory/safety` (single-item visual estimate) — override with `GEMINI_SAFETY_MODEL`. */
+export function geminiSafetyModelId(): string {
+  const m = process.env.GEMINI_SAFETY_MODEL?.trim();
+  return m && m.length > 0 ? m : geminiScanModelId();
+}
+
 export type GeminiPart =
   | { text: string }
   | { inline_data: { mime_type: string; data: string } };

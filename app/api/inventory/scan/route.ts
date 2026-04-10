@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { geminiGenerateContent, geminiScanModelId } from "@/lib/gemini";
+import { extractScanImageFromRequest } from "@/lib/scanMultipartImage";
 
-const SCAN_SYSTEM = `Pantry/fridge photo → list distinct food items as JSON only:
-{"items":[{"name":"English short label","quantity":1,"confidence":0.9,"food_type":"Other","freshness_status":"fresh","days_until_best":7}]}
-food_type: Produce|Dairy|Meat|Poultry|Seafood|Pantry|Frozen|Beverage|Other. freshness_status: fresh|stale|spoiled. quantity 1-99. confidence 0-1. days_until_best 0-365 (7 if unsure). Max 25 items. No food visible: {"items":[]}.`;
+const SCAN_SYSTEM = `List distinct visible food items in the image. JSON only, no prose, no recipes, no meal or cuisine ideas:
+{"items":[{"name":"short English label","quantity":1,"confidence":0.9,"food_type":"Other","freshness_status":"fresh","days_until_best":7}]}
+food_type: Produce|Dairy|Meat|Poultry|Seafood|Pantry|Frozen|Beverage|Other. freshness_status: fresh|stale|spoiled. quantity 1-99. confidence 0-1. days_until_best 0-365 (use 7 if unsure). Max 25 items. If no food: {"items":[]}.`;
 
 const FRESHNESS = new Set(["fresh", "stale", "spoiled"]);
 
@@ -69,64 +70,10 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let formData: FormData;
-  try {
-    formData = await req.formData();
-  } catch {
-    return NextResponse.json(
-      {
-        success: false,
-        error: { code: "bad_request", message: "Expected multipart form data" },
-      },
-      { status: 400 }
-    );
-  }
+  const extracted = await extractScanImageFromRequest(req);
+  if (extracted instanceof NextResponse) return extracted;
 
-  const file = formData.get("image");
-  if (!file || !(file instanceof Blob)) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: { code: "bad_request", message: "Missing image field" },
-      },
-      { status: 400 }
-    );
-  }
-
-  const mimeType = file.type?.trim() || "image/jpeg";
-  if (!mimeType.startsWith("image/")) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: { code: "bad_request", message: "File must be an image" },
-      },
-      { status: 400 }
-    );
-  }
-
-  const buf = Buffer.from(await file.arrayBuffer());
-  if (buf.length === 0) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: { code: "bad_request", message: "Empty image" },
-      },
-      { status: 400 }
-    );
-  }
-
-  const maxBytes = 12 * 1024 * 1024;
-  if (buf.length > maxBytes) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: { code: "bad_request", message: "Image too large" },
-      },
-      { status: 400 }
-    );
-  }
-
-  const base64 = buf.toString("base64");
+  const { base64, mimeType } = extracted;
 
   const gen = await geminiGenerateContent({
     apiKey: key,
@@ -143,7 +90,7 @@ export async function POST(req: NextRequest) {
     ],
     responseMimeType: "application/json",
     temperature: 0.2,
-    maxOutputTokens: 4096,
+    maxOutputTokens: 2048,
   });
 
   if (!gen.ok) {
@@ -183,6 +130,9 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({
     success: true,
-    data: { items },
+    data: {
+      item_count: items.length,
+      items,
+    },
   });
 }
