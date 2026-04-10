@@ -16,9 +16,12 @@ export default function LegalPageLayout({ title, children }: LegalPageLayoutProp
           <Link href="/" className="text-lg font-semibold text-orange">
             ReFresh
           </Link>
-          <nav className="flex gap-4 text-sm font-medium">
+          <nav className="flex flex-wrap gap-4 text-sm font-medium">
             <Link href="/privacy" className="text-orange hover:underline">
               Privacy
+            </Link>
+            <Link href="/terms" className="text-orange hover:underline">
+              Terms
             </Link>
             <Link href="/support" className="text-orange hover:underline">
               Support
