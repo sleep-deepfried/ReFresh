@@ -30,9 +30,11 @@ function GooglePlayMark({ className }: { className?: string }) {
 
 const badgeVariants = {
   default:
-    "inline-flex w-full max-w-[min(100%,20rem)] items-center gap-3 rounded-2xl bg-black px-4 py-3 font-sans text-white shadow-lg sm:max-w-[17.5rem] sm:gap-3.5 sm:px-5 sm:py-3.5",
+    "inline-flex w-full max-w-[min(100%,20rem)] items-center gap-3 rounded-2xl bg-black px-4 py-3 font-sans text-white no-underline shadow-lg " +
+    "sm:min-w-[17.5rem] sm:max-w-[17.5rem] sm:gap-3.5 sm:px-5 sm:py-3.5",
   inverse:
-    "inline-flex w-full max-w-[min(100%,20rem)] items-center gap-3 rounded-2xl border border-white/30 bg-white/10 px-4 py-3 font-sans text-white shadow-none backdrop-blur-md sm:max-w-[17.5rem] sm:gap-3.5 sm:px-5 sm:py-3.5",
+    "inline-flex w-full max-w-[min(100%,20rem)] items-center gap-3 rounded-2xl border border-white/30 bg-white/10 px-4 py-3 font-sans text-white no-underline shadow-none backdrop-blur-md " +
+    "sm:min-w-[17.5rem] sm:max-w-[17.5rem] sm:gap-3.5 sm:px-5 sm:py-3.5",
 } as const;
 
 export type StoreBadgeVariant = keyof typeof badgeVariants;

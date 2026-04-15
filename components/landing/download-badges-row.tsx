@@ -23,7 +23,7 @@ export default function DownloadBadgesRow({
 
   return (
     <div
-      className={`flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap sm:gap-6 ${className}`}
+      className={`flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-6 ${className}`}
     >
       {iosUrl ? (
         <AppStoreLinkBadge href={iosUrl} variant={badgeVariant} />
