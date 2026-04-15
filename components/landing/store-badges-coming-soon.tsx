@@ -73,3 +73,45 @@ export function GooglePlayComingSoonBadge({ variant = "default" }: { variant?: S
     </div>
   );
 }
+
+const linkFocusRing =
+  "transition hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 " +
+  "focus-visible:outline-white/50";
+
+/** Same tile as {@link AppStoreComingSoonBadge}, as a live App Store link. */
+export function AppStoreLinkBadge({ href, variant = "default" }: { href: string; variant?: StoreBadgeVariant }) {
+  return (
+    <a
+      href={href}
+      className={`${badgeVariants[variant]} ${linkFocusRing}`}
+      rel="noopener noreferrer"
+      target="_blank"
+      aria-label="Download on the App Store"
+    >
+      <AppleMark className="h-9 w-7 shrink-0 sm:h-10 sm:w-8" />
+      <div className="min-w-0 flex-1 text-left">
+        <p className={kickerClass}>Download on the</p>
+        <p className={titleClass}>App Store</p>
+      </div>
+    </a>
+  );
+}
+
+/** Same tile as {@link GooglePlayComingSoonBadge}, as a live Google Play link. */
+export function GooglePlayLinkBadge({ href, variant = "default" }: { href: string; variant?: StoreBadgeVariant }) {
+  return (
+    <a
+      href={href}
+      className={`${badgeVariants[variant]} ${linkFocusRing}`}
+      rel="noopener noreferrer"
+      target="_blank"
+      aria-label="Get it on Google Play"
+    >
+      <GooglePlayMark className="h-9 w-8 shrink-0 sm:h-10 sm:w-9" />
+      <div className="min-w-0 flex-1 text-left">
+        <p className={kickerClass}>Get it on</p>
+        <p className={titleClass}>Google Play</p>
+      </div>
+    </a>
+  );
+}
