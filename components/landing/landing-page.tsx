@@ -1,3 +1,4 @@
+import { CollaborationSection } from "@/components/tutorials-dojo-collaboration";
 import SiteFooter from "@/components/site-footer";
 import AppFeatures from "./app-features";
 import HeroSection from "./hero-section";
@@ -16,6 +17,7 @@ export default function LandingPage({ iosUrl, androidUrl }: StoreUrls) {
       <HeroSection iosUrl={iosUrl} androidUrl={androidUrl} />
       <AppFeatures />
       <LandingCtaBand iosUrl={iosUrl} androidUrl={androidUrl} />
+      <CollaborationSection />
       <SiteFooter />
     </div>
   );

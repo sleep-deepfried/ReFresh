@@ -1,4 +1,5 @@
 import SiteHeader from "@/components/site-header";
+import { CollaborationFooterLine } from "@/components/tutorials-dojo-collaboration";
 
 type LegalPageLayoutProps = {
   title: string;
@@ -30,6 +31,10 @@ export default function LegalPageLayout({ title, children }: LegalPageLayoutProp
           </div>
         </article>
       </main>
+
+      <footer className="border-t border-ink/10 bg-canvas px-4 py-10 text-center">
+        <CollaborationFooterLine />
+      </footer>
     </div>
   );
 }
